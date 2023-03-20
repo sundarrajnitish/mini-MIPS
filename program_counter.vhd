@@ -6,34 +6,33 @@
 ------------------------------------------------------
 ------------------------------------------------------
 
-
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity program_counter is
 	port(
-		clk: in std_logic;
-		address_in: in std_logic_vector(3 downto 0);
-		address_out: out std_logic_vector(3 downto 0)
+		pc_clk: in std_logic;
+		pc_address_in: in std_logic_vector(31 downto 0);
+		pc_address_out: out std_logic_vector(31 downto 0)
 	);
 end program_counter;
 
 architecture behavioral of program_counter is
-	signal address: std_logic_vector(3 downto 0):= "0000";
-	signal test_address: std_logic_vector(3 downto 0):= "0000";
+	signal pc_address: std_logic_vector(31 downto 0):= "00000000000000000000000000000000";
+	signal pc_test_address: std_logic_vector(31 downto 0):= "00000000000000000000000000000000"; -- for testing
 
 	begin
-	process(clk)
+	process(pc_clk)
 		begin
-		if address_in = "UUUU" then
-			address <= "0000";
+		if pc_address_in = "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" then
+			pc_address <= "00000000000000000000000000000000";
 		else
-			address <= address_in;
+			pc_address <= pc_address_in;
 			end if;
-		if clk='1' then
-			test_address <= test_address + 4;
-			address_out <= address + 4;
+		if pc_clk = '1' then
+			pc_test_address <= pc_test_address + 4;
+			pc_address_out <= pc_address + 4;
 		end if;
 	end process;
 
