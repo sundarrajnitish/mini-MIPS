@@ -214,12 +214,12 @@ Abehavioral
 R1
 R2
 R3
-Z43 DEx4 work 15 register_memory 0 22 ?S8ljT^?Edeiz<biUcSAB0
+DEx4 work 15 register_memory 0 22 ?S8ljT^?Edeiz<biUcSAB0
 !i122 100
 l32
-Z44 L29 217
-Z45 Vf>8GeN98@`@@KDldgDcY?1
-Z46 !s100 Kkl^`MCl0iQi2IKE3[WVJ0
+L29 217
+Vf>8GeN98@`@@KDldgDcY?1
+!s100 Kkl^`MCl0iQi2IKE3[WVJ0
 R8
 32
 R39
@@ -227,6 +227,49 @@ R39
 R40
 R41
 R42
+!i113 1
+R13
+R14
+Esign_extend
+Z43 w1679774357
+R1
+R2
+R3
+!i122 101
+R4
+Z44 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd
+Z45 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd
+l0
+L5 1
+VgL?E0^[EM;@OWBP>XaN:d3
+!s100 26km27fO03:8k_b19J]E02
+R8
+32
+Z46 !s110 1679774715
+!i10b 1
+Z47 !s108 1679774715.000000
+Z48 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
+!s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R1
+R2
+R3
+DEx4 work 11 sign_extend 0 22 gL?E0^[EM;@OWBP>XaN:d3
+!i122 101
+l13
+L12 11
+V0Gmc@HdaX511e^z9Tn6_X3
+!s100 ^TLLKfKzPRf2NZ3UMiGkY2
+R8
+32
+R46
+!i10b 1
+R47
+R48
+Z49 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
 !i113 1
 R13
 R14
