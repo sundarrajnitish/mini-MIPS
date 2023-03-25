@@ -10,21 +10,21 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity pc is
+entity program_counter is
 	port(
-		ck: in std_logic;
+		clk: in std_logic;
 		current_address: out std_logic_vector(31 downto 0)
 	);
-end pc;
+end program_counter;
 
-architecture beh of pc is
+architecture behavioral of program_counter is
 
 	signal next_address: std_logic_vector(31 downto 0):= "00000000000000000000000000000000";
 
 	begin
-		process (ck)
+		process (clk)
 		begin
-			if (ck'event and ck = '1') then
+			if (clk'event and clk = '1') then
 			case next_address is
 				when "00000000000000000000000000000000" => 
 					current_address <= "00000000000000000000000000000000";
@@ -39,5 +39,5 @@ architecture beh of pc is
 				
 		end process;
 
-end beh;
+end behavioral;
 

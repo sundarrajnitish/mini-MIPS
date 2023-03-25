@@ -13,35 +13,38 @@ use IEEE.numeric_std.all;
 entity instruction_memory is
 	port (
 		read_address: in STD_LOGIC_VECTOR (31 downto 0);
-		instruction, last_instr_address: out STD_LOGIC_VECTOR (31 downto 0)
+		instruction: out STD_LOGIC_VECTOR (31 downto 0)
 	);
 end instruction_memory;
 
 
-architecture behavioral of instruction_memory is	 
+architecture behavioral of instruction_memory is	
+
+--signal next_address: std_logic_vector(31 downto 0):= "00000000000000000000000000000000";
+
 begin
 
 	process (read_address)
 	begin
-
 		case read_address is
 			when "00000000000000000000000000000000" => 
 				instruction <= "00100000000010000000000000000111";
-                last_instr_address <= read_address;
+                --next_address <= read_address;
 			when "00000000000000000000000000000100" => 
                 instruction <= "00100000000010010000000000000110";
-                last_instr_address <= read_address;
+                --next_address <= read_address;
 			when "00000000000000000000000000001100" => 
                 instruction <= "00010101000010010000000000000010";
-                last_instr_address <= read_address;
-            when "00000000000000000000000000010000" => 
+                --next_address <= read_address;
+            when "00000000000000000000000000001000" => 
                 instruction <= "00100000000010000000000000001000";
-                last_instr_address <= read_address;
+                --next_address <= read_address;
             when "00000000000000000000000000010100" => 
                 instruction <= "00100000000010010000000000001000";
-                last_instr_address <= read_address;
+                --next_address <= read_address;
 			when others => 
                 instruction <= "11111111111111111111111111111111";
+                --next_address <= read_address;
 		end case;
 
 	end process;
