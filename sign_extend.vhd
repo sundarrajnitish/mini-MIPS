@@ -1,3 +1,11 @@
+------------------------------------------------------
+------------------------------------------------------
+-- Programmed by Nitish Sundarraj Balaji (40241817)
+-- Concordia University, Montreal, Canada
+-- COEN 6741 - Computer Architecture and Design - Winter 2023
+------------------------------------------------------
+------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
