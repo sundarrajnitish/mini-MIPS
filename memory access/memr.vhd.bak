@@ -1,0 +1,56 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity memory_access is
+    port(
+        clk           : in  std_logic;
+        reset         : in  std_logic;
+        instruction   : in  std_logic_vector(31 downto 0);
+        alu_result    : in  signed(31 downto 0);
+        write_data    : in  signed(31 downto 0);
+        mem_read      : in  std_logic;
+        mem_write     : in  std_logic;
+        mem_select    : in  std_logic_vector(1 downto 0);
+        mem_address   : out std_logic_vector(31 downto 0);
+        read_data     : inout signed(31 downto 0);
+        branch_target : out signed(31 downto 0)
+    );
+end memory_access;
+
+architecture behavioral of memory_access is
+    signal mem_data : signed(31 downto 0);
+begin
+    process (clk, reset)
+    begin
+        if reset = '1' then
+            read_data <= (others => '0');
+            branch_target <= (others => '0');
+        elsif rising_edge(clk) then
+            if mem_read = '1' then
+                case mem_select is
+                    when "00" => read_data <= mem_data; -- read word
+                    when "01" => read_data(7 downto 0) <= mem_data(7 downto 0); -- read byte (lower)
+                                 read_data(31 downto 8) <= (others => mem_data(7)); -- sign-extend byte
+                    when "10" => read_data(15 downto 0) <= mem_data(15 downto 0); -- read half-word (lower)
+                                 read_data(31 downto 16) <= (others => mem_data(15)); -- sign-extend half-word
+                    when others => read_data <= (others => '0');
+                end case;
+            end if;
+            
+            if mem_write = '1' then
+                case mem_select is
+                    when "00" => mem_data <= write_data;
+                    when "01" => mem_data(7 downto 0) <= write_data(7 downto 0);
+                                 mem_data(31 downto 8) <= (others => write_data(7));
+                    when "10" => mem_data(15 downto 0) <= write_data(15 downto 0);
+                                 mem_data(31 downto 16) <= (others => write_data(15));
+                    when others => null;
+                end case;
+            end if;
+        end if;
+    end process;
+
+
+end behavioral;
+

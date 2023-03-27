@@ -1,0 +1,143 @@
+m255
+K4
+z2
+!s11e MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/intelFPGA/20.1
+Emem_access_stage
+Z0 w1679844119
+Z1 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 5
+Z4 dC:/Users/Amira J/Desktop/CAD/project cad/v3
+Z5 8C:\Users\Amira J\Desktop\CAD\project cad\v3\memr.vhd
+Z6 FC:\Users\Amira J\Desktop\CAD\project cad\v3\memr.vhd
+l0
+L5 1
+VZTD3mXVE^bbo_6_zB1N2E3
+!s100 Uj@@]SoPSWkom[F3DgogC2
+Z7 OV;C;2020.1;71
+32
+Z8 !s110 1679844132
+!i10b 1
+Z9 !s108 1679844132.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:\Users\Amira J\Desktop\CAD\project cad\v3\memr.vhd|
+Z11 !s107 C:\Users\Amira J\Desktop\CAD\project cad\v3\memr.vhd|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Abehavioral
+R1
+R2
+R3
+Z14 DEx4 work 16 mem_access_stage 0 22 ZTD3mXVE^bbo_6_zB1N2E3
+!i122 5
+l20
+Z15 L17 21
+Z16 VbDh:E]>1XLfCI1idARS7e1
+Z17 !s100 Q8j]z5fXYmOIGeW1U:o4e0
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Ememory_access
+Z18 w1679843841
+R1
+R2
+R3
+!i122 3
+R4
+R5
+R6
+l0
+L5 1
+Vke@:RT>TfU4BPAH@T@?ZM2
+!s100 cB<2E_D?j@=aK2HYT>R9h0
+R7
+32
+Z19 !s110 1679843846
+!i10b 1
+Z20 !s108 1679843846.000000
+R10
+R11
+!i113 1
+R12
+R13
+Abehavioral
+R1
+R2
+R3
+DEx4 work 13 memory_access 0 22 ke@:RT>TfU4BPAH@T@?ZM2
+!i122 3
+l23
+L21 35
+V^k8Bj7R7O[4Y^PI71[?OI3
+!s100 n?cNkN<eiFRQk0fc6dfWd1
+R7
+32
+R19
+!i10b 1
+R20
+R10
+R11
+!i113 1
+R12
+R13
+Ememory_access_stage
+w1679843454
+R1
+R2
+R3
+!i122 0
+R4
+R5
+R6
+l0
+L6 1
+VeRejeG]l^SgDVe[Dk<mZW2
+!s100 3mCScJ_=aTka0eN>Wc7h60
+R7
+32
+!s110 1679843459
+!i10b 1
+!s108 1679843459.000000
+R10
+R11
+!i113 1
+R12
+R13
+Ememr
+w1679843611
+R1
+R2
+R3
+!i122 1
+R4
+R5
+R6
+l0
+L5 1
+VRUKmHZL[CT?:HVlA9lYng1
+!s100 Wj^1`J3;UjH8hTeRbI`Oj2
+R7
+32
+!s110 1679843617
+!i10b 1
+!s108 1679843617.000000
+R10
+R11
+!i113 1
+R12
+R13

@@ -1,0 +1,17 @@
+# Compile of memr.vhd failed with 11 errors.
+# Compile of memr.vhd failed with 3 errors.
+# Compile of memr.vhd failed with 6 errors.
+# Compile of memr.vhd was successful.
+# Load canceled
+# Compile of memr.vhd was successful.
+# Compile of memr.vhd was successful.
+vsim -gui work.mem_access_stage
+# vsim -gui work.mem_access_stage 
+# Start time: 11:22:38 on Mar 26,2023
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.mem_access_stage(behavioral)
+# End time: 12:05:00 on Mar 26,2023, Elapsed time: 0:42:22
+# Errors: 0, Warnings: 10
