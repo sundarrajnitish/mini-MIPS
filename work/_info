@@ -14,348 +14,561 @@ Z0 w1679785989
 Z1 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 114
+!i122 119
 Z4 dC:/Users/sunda/Desktop/GitHub/mini-MIPS
 Z5 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/address_calculator.vhd
 Z6 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/address_calculator.vhd
 l0
-L14 1
+Z7 L14 1
 Ve[So1;;EVm<>YQEN65JhF1
 !s100 H=YIYKEOl]WMkJd9<LB0l0
-Z7 OV;C;2020.1;71
+Z8 OV;C;2020.1;71
 32
-Z8 !s110 1679786004
+Z9 !s110 1679881482
 !i10b 1
-Z9 !s108 1679786004.000000
-Z10 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/address_calculator.vhd|
-Z11 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/address_calculator.vhd|
+Z10 !s108 1679881482.000000
+Z11 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/address_calculator.vhd|
+Z12 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/address_calculator.vhd|
 !i113 1
-Z12 o-work work
-Z13 tExplicit 1 CvgOpt 0
+Z13 o-work work
+Z14 tExplicit 1 CvgOpt 0
 Abehavioral
 R1
 R2
 R3
 DEx4 work 12 address_calc 0 22 e[So1;;EVm<>YQEN65JhF1
-!i122 114
+!i122 119
 l23
 L22 10
 VT[_M3km<MNiI4WiibN0j[3
 !s100 _mT^<Q58Z_4PaYX?ani[E1
-R7
-32
 R8
-!i10b 1
+32
 R9
+!i10b 1
 R10
 R11
-!i113 1
 R12
+!i113 1
 R13
-Ealu_control
-Z14 w1679793401
+R14
+Ealu
+Z15 w1679883035
 R1
 R2
 R3
-!i122 118
+!i122 162
 R4
-Z15 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd
-Z16 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd
+Z16 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU.vhd
+Z17 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU.vhd
 l0
-Z17 L13 1
-V_@<aVA2NEYgaD=7^8i8IB0
-!s100 zUQI:Plce<D;n5VD6;PkX1
-R7
+Z18 L13 1
+VRbnUf;E2U=g]KeQOL7=^m0
+!s100 9^7VIfVF[`V9DdPn[QzCI1
+R8
 32
-Z18 !s110 1679793403
+Z19 !s110 1679883101
 !i10b 1
-Z19 !s108 1679793403.000000
-Z20 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd|
-Z21 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd|
+Z20 !s108 1679883101.000000
+Z21 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU.vhd|
+Z22 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU.vhd|
 !i113 1
-R12
 R13
+R14
 Abehavioral
 R1
 R2
 R3
-Z22 DEx4 work 11 alu_control 0 22 _@<aVA2NEYgaD=7^8i8IB0
-!i122 118
-l23
-Z23 L20 26
-VVJAZHW^@<afTBMT=:<G[S1
-!s100 jZe4<F[NVz?5:GFboDGQg1
-R7
+Z23 DEx4 work 3 alu 0 22 RbnUf;E2U=g]KeQOL7=^m0
+!i122 162
+l37
+Z24 L24 27
+Z25 V0b9;GLOi;jOlSCKPC]_kO0
+Z26 !s100 TO92CnAR46ieFMjd>0T2j0
+R8
 32
-R18
-!i10b 1
 R19
+!i10b 1
 R20
 R21
+R22
 !i113 1
-R12
 R13
-Einstruction_memory
-Z24 w1679757530
+R14
+Ealu_control
+Z27 w1679881437
 R1
 R2
 R3
-!i122 90
+!i122 121
 R4
-Z25 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd
-Z26 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd
+Z28 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd
+Z29 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd
 l0
-R17
+R18
+V_@<aVA2NEYgaD=7^8i8IB0
+!s100 zUQI:Plce<D;n5VD6;PkX1
+R8
+32
+Z30 !s110 1679881486
+!i10b 1
+Z31 !s108 1679881486.000000
+Z32 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd|
+Z33 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/ALU_control.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R1
+R2
+R3
+DEx4 work 11 alu_control 0 22 _@<aVA2NEYgaD=7^8i8IB0
+!i122 121
+l23
+L20 26
+VPTLg_2hVkZ7F6LA<E9mFL3
+!s100 LhmDdJ:EMN>LVR?8UQ@O11
+R8
+32
+R30
+!i10b 1
+R31
+R32
+R33
+!i113 1
+R13
+R14
+Edata_memory
+Z34 w1679881603
+Z35 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+Z36 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+R2
+R3
+!i122 136
+R4
+Z37 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/data_memory.vhd
+Z38 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/data_memory.vhd
+l0
+L15 1
+VL1:aTlzQUYGB9XVYcP6:43
+!s100 ?<L1n=hbo:C4W@2ajgnV>1
+R8
+32
+Z39 !s110 1679881609
+!i10b 1
+Z40 !s108 1679881608.000000
+Z41 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/data_memory.vhd|
+Z42 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/data_memory.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R35
+R36
+R2
+R3
+DEx4 work 11 data_memory 0 22 L1:aTlzQUYGB9XVYcP6:43
+!i122 136
+l31
+L29 81
+VdhQOgNWf:J:ZC^IHb08Ek1
+!s100 J;g1L;agf?4D5nI<9@cDi3
+R8
+32
+R39
+!i10b 1
+R40
+R41
+R42
+!i113 1
+R13
+R14
+Einstruction_memory
+Z43 w1679758316
+R1
+R2
+R3
+!i122 124
+R4
+Z44 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd
+Z45 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd
+l0
+R18
 VDnKm1>L]>d_20UD8@P5Tg2
 !s100 <:?9P8Jd197EizaXm?Za:1
-R7
+R8
 32
-Z27 !s110 1679757941
+Z46 !s110 1679881497
 !i10b 1
-Z28 !s108 1679757941.000000
-Z29 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd|
-Z30 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd|
+Z47 !s108 1679881497.000000
+Z48 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd|
+Z49 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/instruction_memory.vhd|
 !i113 1
-R12
 R13
+R14
 Abehavioral
 R1
 R2
 R3
 DEx4 work 18 instruction_memory 0 22 DnKm1>L]>d_20UD8@P5Tg2
-!i122 90
+!i122 124
 l25
 L21 33
-VAbRZVZH8I?:]UZ0bHmQXB1
-!s100 [XU^H;eBJG=JMF;N5^O>^0
-R7
+VzJTCXN^mIKC:jeze>E4kB1
+!s100 <`d?E9=<;LO]F4`[mjU==0
+R8
 32
-R27
+R46
 !i10b 1
-R28
-R29
-R30
+R47
+R48
+R49
 !i113 1
-R12
 R13
+R14
 Emain
-Z31 w1679758041
-Z32 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
-Z33 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z50 w1679758041
+R35
+R36
 R2
 R3
-!i122 91
+!i122 123
 R4
-Z34 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd
-Z35 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd
+Z51 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd
+Z52 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd
 l0
 L7 1
 V;d<ZUjdgTM580^K=heN[=3
 !s100 geHEGDL;Y6dCc3Hd4B_T;3
-R7
+R8
 32
-Z36 !s110 1679758062
+Z53 !s110 1679881495
 !i10b 1
-Z37 !s108 1679758062.000000
-Z38 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd|
-Z39 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd|
+Z54 !s108 1679881495.000000
+Z55 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd|
+Z56 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/fetch_operation.vhd|
 !i113 1
-R12
 R13
+R14
 Abeh
-R32
-R33
+R35
+R36
 R2
 R3
 DEx4 work 4 main 0 22 ;d<ZUjdgTM580^K=heN[=3
-!i122 91
+!i122 123
 l41
 L13 38
 VlklklNnKd`m5C8ZOJ9fhX0
 !s100 O6og67WPSfJzKj317P@iD2
-R7
+R8
 32
-R36
+R53
 !i10b 1
-R37
-R38
-R39
+R54
+R55
+R56
 !i113 1
-R12
 R13
+R14
+Emux
+Z57 w1679787621
+R1
+R2
+R3
+!i122 125
+R4
+Z58 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/mux.vhd
+Z59 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/mux.vhd
+l0
+R7
+VmJ^ZiYW]7^Gi:7cDNmX0W3
+!s100 a>ZFc=0e8kZkM7gUfIeCF2
+R8
+32
+Z60 !s110 1679881499
+!i10b 1
+Z61 !s108 1679881499.000000
+Z62 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/mux.vhd|
+Z63 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/mux.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R1
+R2
+R3
+DEx4 work 3 mux 0 22 mJ^ZiYW]7^Gi:7cDNmX0W3
+!i122 125
+l24
+L23 11
+V05bP@5Uk8AId=<RHoIdU22
+!s100 M8V_S0hh6TcT4cO0AePn22
+R8
+32
+R60
+!i10b 1
+R61
+R62
+R63
+!i113 1
+R13
+R14
 Epc
-Z40 w1679756046
-R33
-R32
+Z64 w1679756046
+R36
+R35
 R2
 R3
 !i122 81
 R4
-Z41 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd
-Z42 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd
+Z65 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd
+Z66 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd
 l0
-R17
+R18
 VR<LHf`]JPWDIk0;1mOI:D1
 !s100 a;AZ=CToDW4eMeJX:ZUiV3
-R7
+R8
 32
-Z43 !s110 1679756053
+Z67 !s110 1679756053
 !i10b 1
-Z44 !s108 1679756052.000000
-Z45 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd|
-Z46 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd|
+Z68 !s108 1679756052.000000
+Z69 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd|
+Z70 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd|
 !i113 1
-Z47 o-work work -2002 -explicit
-R13
+Z71 o-work work -2002 -explicit
+R14
 Abeh
-R33
-R32
+R36
+R35
 R2
 R3
 DEx4 work 2 pc 0 22 R<LHf`]JPWDIk0;1mOI:D1
 !i122 81
 l24
-Z48 L20 23
+Z72 L20 23
 VE39klAl4BT9:3VZ>AS8b_1
 !s100 Y1eS3YAh6=[kzi35UYo_g3
-R7
+R8
 32
-R43
+R67
 !i10b 1
-R44
-R45
-R46
+R68
+R69
+R70
 !i113 1
-R47
-R13
+R71
+R14
 Eprogram_counter
-Z49 w1679756814
-R33
-R32
+Z73 w1679756814
+R36
+R35
 R2
 R3
-!i122 88
+!i122 126
 R4
-R41
-R42
+R65
+R66
 l0
-R17
-VTi^7jD?VDfhO`@N]G1LzI2
+R18
+VcA4F859=TK5d5HJOK^hlN1
 !s100 bESM7>F@a55b<n:oDc0Ql2
-R7
+R8
 32
-Z50 !s110 1679757935
+Z74 !s110 1679881500
 !i10b 1
-Z51 !s108 1679757935.000000
-R45
-R46
+Z75 !s108 1679881500.000000
+Z76 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/program_counter.vhd|
+R70
 !i113 1
-R47
 R13
+R14
 Abehavioral
-R33
-R32
+R36
+R35
 R2
 R3
-DEx4 work 15 program_counter 0 22 Ti^7jD?VDfhO`@N]G1LzI2
-!i122 88
+DEx4 work 15 program_counter 0 22 cA4F859=TK5d5HJOK^hlN1
+!i122 126
 l24
-R48
-VgH2NhldAEO`_3HRl4j2Qk1
+R72
+VhhNfGhMK5FzHGCbz?3T3]2
 !s100 Lm`3nRYSQz;KW32PY[=NE2
-R7
+R8
 32
-R50
+R74
 !i10b 1
-R51
-R45
-R46
+R75
+R76
+R70
 !i113 1
-R47
 R13
+R14
 Eregister_memory
-Z52 w1679771223
+Z77 w1679771223
 R1
 R2
 R3
-!i122 100
+!i122 127
 R4
-Z53 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd
-Z54 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd
+Z78 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd
+Z79 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd
 l0
-R17
+R18
 V?S8ljT^?Edeiz<biUcSAB0
 !s100 :N1EkBeD12l4i6lmB3=763
-R7
+R8
 32
-Z55 !s110 1679771236
+Z80 !s110 1679881502
 !i10b 1
-Z56 !s108 1679771236.000000
-Z57 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd|
-Z58 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd|
+Z81 !s108 1679881502.000000
+Z82 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd|
+Z83 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/register_memory.vhd|
 !i113 1
-R12
 R13
+R14
 Abehavioral
 R1
 R2
 R3
 DEx4 work 15 register_memory 0 22 ?S8ljT^?Edeiz<biUcSAB0
-!i122 100
+!i122 127
 l32
 L29 217
 Vf>8GeN98@`@@KDldgDcY?1
 !s100 Kkl^`MCl0iQi2IKE3[WVJ0
-R7
+R8
 32
-R55
+R80
 !i10b 1
-R56
-R57
-R58
+R81
+R82
+R83
 !i113 1
-R12
 R13
+R14
 Esign_extend
-Z59 w1679774357
+Z84 w1679774923
 R1
 R2
 R3
-!i122 101
+!i122 128
 R4
-Z60 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd
-Z61 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd
+Z85 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd
+Z86 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd
 l0
-L5 1
-VgL?E0^[EM;@OWBP>XaN:d3
-!s100 26km27fO03:8k_b19J]E02
-R7
+R18
+V5G;jZ<RcVJKMh88?`aHS72
+!s100 >N?z>c>KMNZT;]IDDdZX@3
+R8
 32
-Z62 !s110 1679774715
+Z87 !s110 1679881504
 !i10b 1
-Z63 !s108 1679774715.000000
-Z64 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
-Z65 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
+Z88 !s108 1679881504.000000
+Z89 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
+Z90 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/sign_extend.vhd|
 !i113 1
-R12
 R13
+R14
 Abehavioral
 R1
 R2
 R3
-DEx4 work 11 sign_extend 0 22 gL?E0^[EM;@OWBP>XaN:d3
-!i122 101
-l13
-L12 11
-V0Gmc@HdaX511e^z9Tn6_X3
-!s100 ^TLLKfKzPRf2NZ3UMiGkY2
-R7
+DEx4 work 11 sign_extend 0 22 5G;jZ<RcVJKMh88?`aHS72
+!i122 128
+l21
+L20 11
+V?fVbRSo1YUf0aSC7`4@LQ3
+!s100 SBE08fJnSD5NE[K0KaTE_3
+R8
 32
-R62
+R87
 !i10b 1
-R63
-R64
-R65
+R88
+R89
+R90
 !i113 1
-R12
 R13
+R14
+Etest_write_back_stage
+Z91 w1679756272
+R2
+R3
+!i122 129
+R4
+Z92 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/test_write_back_stage.VHD
+Z93 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/test_write_back_stage.VHD
+l0
+L4 1
+VegYUM@4I8HY18f14bo0NC2
+!s100 @3`4H]2]>=RCHkkY[Ne991
+R8
+32
+Z94 !s110 1679881506
+!i10b 1
+Z95 !s108 1679881505.000000
+Z96 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/test_write_back_stage.VHD|
+Z97 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/test_write_back_stage.VHD|
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R3
+DEx4 work 21 test_write_back_stage 0 22 egYUM@4I8HY18f14bo0NC2
+!i122 129
+l30
+L7 65
+V9ETz]OcX9;9n57L7=dKV62
+!s100 =zjBhWFW3G>=eZnQMnL:i1
+R8
+32
+R94
+!i10b 1
+R95
+R96
+R97
+!i113 1
+R13
+R14
+Ewrite_back_stage
+R91
+R2
+R3
+!i122 130
+R4
+Z98 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/write_back_stage.vhd
+Z99 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/write_back_stage.vhd
+l0
+L4 1
+VhKBooR`aRl6Lbh`;4E2gz2
+!s100 8N4=l]5J_64if?P4j@k4O0
+R8
+32
+Z100 !s110 1679881508
+!i10b 1
+Z101 !s108 1679881507.000000
+Z102 !s90 -reportprogress|300|-work|work|C:/Users/sunda/Desktop/GitHub/mini-MIPS/write_back_stage.vhd|
+Z103 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/write_back_stage.vhd|
+!i113 1
+R13
+R14
+Artl
+R2
+R3
+DEx4 work 16 write_back_stage 0 22 hKBooR`aRl6Lbh`;4E2gz2
+!i122 130
+l18
+L17 17
+VaWDY5k6I?YfQnZeYaFR@c0
+!s100 eAP4NV>d<B7Z@2?f_[?L;3
+R8
+32
+R100
+!i10b 1
+R101
+R102
+R103
+!i113 1
+R13
+R14

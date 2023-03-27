@@ -26,19 +26,19 @@ begin
         case opcode is
             when "000000" => -- R-type
                 case fucode is
-                    when "000000" => control_output <= "0100"; -- sll
-                    when "100000" => control_output <= "0010"; -- add
-                    when "100110" => control_output <= "0011"; -- xor
-                    when "100111" => control_output <= "0000"; -- nor
-                    when others => control_output <= "1111"; -- indicating invalid function code
+                    when "100111" => control_output <= "0000"; -- nor --0
+                    when "000000" => control_output <= "0001"; -- sll --1
+                    when "100110" => control_output <= "0010"; -- xor --2
+                    when "100000" => control_output <= "0011"; -- add --3
+                    when others => control_output <= "1110"; -- indicating invalid function code
                 end case;
-            when "001100" => control_output <= "1000"; -- andi
-            when "011001" => control_output <= "0010"; -- subui
-            when "000010" => control_output <= "1100"; -- j
-            when "001000" => control_output <= "1111"; -- jr
-            when "000100" => control_output <= "0011"; -- beq
-            when "100011" => control_output <= "1111"; -- lw
-            when "101000" => control_output <= "0010";-- sb
+            when "001100" => control_output <= "0100"; -- andi -- 4
+            when "011001" => control_output <= "0101"; -- subui -- 5
+            when "000100" => control_output <= "0110"; -- beq -- 6
+            when "100011" => control_output <= "0111"; -- lw --7
+            when "101000" => control_output <= "1000";-- sb --8
+            when "001000" => control_output <= "1001"; -- jr --9
+            when "000010" => control_output <= "1010"; -- j --10
             when others => control_output <= "1111"; -- indicating invalid opcode
         end case;
     end process;

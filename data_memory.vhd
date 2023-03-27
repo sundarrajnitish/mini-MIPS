@@ -22,13 +22,13 @@ entity data_memory is
         mem_read: in std_logic;
        -- mem_reg_write: in std_logic; -- has to be in the write back stage
 
-        read_data: out std_logic_vector(7 downto 0)
+        read_data: out std_logic_vector(31 downto 0)
     );
 end data_memory;
 
 architecture behavioral of data_memory is
     signal m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30, m31: std_logic_vector(31 downto 0) := (others => '0');
-    
+    begin
     process (mem_address, write_data, clk)
 	begin
         if mem_write = '1' and mem_read = '0' then
@@ -101,7 +101,7 @@ architecture behavioral of data_memory is
             when "00000000000000000000000001110100" => read_data <= m29;
             when "00000000000000000000000001111000" => read_data <= m30;
             when "00000000000000000000000001111100" => read_data <= m31;
-
+            when others => null;
             end case;
         end if;
     end process;
