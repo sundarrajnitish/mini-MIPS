@@ -35,21 +35,21 @@ architecture behavioral of alu is
 
 
     begin
-        temp_output <= data_1 nor data_2 when alu_control = c_nor else
-                        std_logic_vector(unsigned(data_1) sll to_integer(unsigned(data_2))) when alu_control = c_sll else
-                        data_1 xor data_2 when alu_control = c_xor else
-                        data_1 and data_2 when alu_control = c_andi else
-                        std_logic_vector(unsigned(data_1) - unsigned(data_2)) when alu_control = c_subui else
-                        std_logic_vector(unsigned(data_1) + unsigned(data_2)) when alu_control = c_add else
-                        data_1 when alu_control = c_lw else
-                        data_1 when alu_control = c_sb;
+        temp_output <= data_1 nor data_2 when alu_control = c_nor else -- works
+                        std_logic_vector(unsigned(data_1) sll to_integer(unsigned(data_2))) when alu_control = c_sll else -- not working
+                        data_1 xor data_2 when alu_control = c_xor else -- works
+                        data_1 and data_2 when alu_control = c_andi else -- not working
+                        std_logic_vector(unsigned(data_1) - unsigned(data_2)) when alu_control = c_subui else -- works
+                        std_logic_vector(unsigned(data_1) + unsigned(data_2)) when alu_control = c_add else -- works
+                        data_1 when alu_control = c_lw else -- works
+                        data_1 when alu_control = c_sb; -- not working
 
         alu_output <= temp_output;
 
-        case temp_output is
-            when "00000000000000000000000000000000" => zero_flag <= '1';
-            when others => zero_flag <= '0';
-       end case;
+        --case temp_output is
+        --    when "00000000000000000000000000000000" => zero_flag <= '1';
+        --    when others => zero_flag <= '0';
+       --end case;
 
 
 end behavioral;
