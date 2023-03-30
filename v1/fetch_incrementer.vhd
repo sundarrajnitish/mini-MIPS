@@ -10,18 +10,18 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity incrementer is
+entity fetch_incrementer is
     Port ( clk : in std_logic;
-           input_address : in std_logic_vector(31 downto 0);
+           address_out : in std_logic_vector(31 downto 0);
            output_address : out std_logic_vector(31 downto 0));
-end incrementer;
+end fetch_incrementer;
 
-architecture behavioral of incrementer is
+architecture behavioral of fetch_incrementer is
 begin
     process(clk)
     begin
-        if rising_edge(clk) then
-            output_address <= input_address + 4;
+        if clk'event and clk = '0' then
+            output_address <= address_out + 4;
         end if;
     end process;
 end behavioral;

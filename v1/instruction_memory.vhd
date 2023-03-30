@@ -12,7 +12,7 @@ use IEEE.numeric_std.all;
 
 entity instruction_memory is
 	port (
-		read_address: in STD_LOGIC_VECTOR (31 downto 0);
+		address_out: in STD_LOGIC_VECTOR (31 downto 0);
 		instruction: out STD_LOGIC_VECTOR (31 downto 0)
 	);
 end instruction_memory;
@@ -24,9 +24,9 @@ architecture behavioral of instruction_memory is
 
 begin
 
-	process (read_address)
+	process (address_out)
 	begin
-		case read_address is
+		case address_out is
 			when "00000000000000000000000000000000" => 
 				instruction <= "00100000000010000000000000000111";
 			when "00000000000000000000000000000100" => 

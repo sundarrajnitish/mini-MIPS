@@ -15,7 +15,7 @@ entity register_memory is
         clk: in STD_LOGIC;
         reg_write: in STD_LOGIC;
 
-        instruction: in STD_LOGIC_VECTOR (31 downto 0);
+        --instruction: in STD_LOGIC_VECTOR (31 downto 0);
 		read_register_1: in STD_LOGIC_VECTOR (4 downto 0);
         read_register_2: in STD_LOGIC_VECTOR (4 downto 0);
         write_register: in STD_LOGIC_VECTOR (4 downto 0);
@@ -27,14 +27,13 @@ entity register_memory is
 end register_memory;
 
 architecture behavioral of register_memory is
-    signal rs, rt, rd: std_logic_vector(4 downto 0);
     signal r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30, r31: std_logic_vector(31 downto 0) := (others => '0');
     begin
 
         process (read_register_1, read_register_2, write_register, write_data)
         begin
             case read_register_1 is
-                when "00000" => --0
+                when "00000" => --0 -- each address represents a 5-bit value for 32 registers
                     read_data_1 <= r0;
                 when "00001" => --1
                     read_data_1 <= r1;
