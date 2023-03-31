@@ -13,28 +13,30 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity program_counter is
 	port(
 		clk: in std_logic;
-		address_in: in std_logic_vector(31 downto 0);
-		address_out: out std_logic_vector(31 downto 0)
+		current_address: out std_logic_vector(31 downto 0)
 	);
 end program_counter;
 
 architecture behavioral of program_counter is
 
+	signal next_address: std_logic_vector(31 downto 0):= "00000000000000000000000000000000";
+
 	begin
 		process (clk)
 		begin
 			if (clk'event and clk = '1') then
-			case pc_op is
-				when "00" => --indicates pc value should be an incremented value of the previous pc value
-					address_out <= address_in;
-				when "01" => --indicates that pc should be updated to target or branch address
-					address_out <= target_address;
+			case next_address is
+				when "00000000000000000000000000000000" => 
+					current_address <= "00000000000000000000000000000000";
+					next_address <= next_address + 4;
+
 				when others =>
-					null;
+					current_address <= next_address;
+					next_address <= next_address + 4; 
+					
 			end case;
 			end if;
 				
 		end process;
 
 end behavioral;
-
