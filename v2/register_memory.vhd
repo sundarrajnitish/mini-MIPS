@@ -32,6 +32,7 @@ architecture behavioral of register_memory is
 
         process (read_register_1, read_register_2, write_register, write_data)
         begin
+            if clk = '1' then
             case read_register_1 is
                 when "00000" => --0 -- each address represents a 5-bit value for 32 registers
                     read_data_1 <= r0;
@@ -168,7 +169,8 @@ architecture behavioral of register_memory is
                     when others =>
                         read_data_2 <= (others => '0');
                 end case;
-                    if reg_write = '1' then
+                end if;
+                    if clk = '0' and reg_write = '1' then
                         --wait until rising_edge(clk);
                         case write_register is
                             when "00000" => --0

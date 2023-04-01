@@ -22,7 +22,7 @@ architecture behavioral of fetch_testbench is
 	signal instr_address: std_logic_vector(31 downto 0); -- Address of the instruction to run
 	signal instruction: std_logic_vector(31 downto 0); -- The actual instruction to run
 
-    signal pc_in, instruction_in: std_logic_vector(31 downto 0);
+    signal pc_in, instruction_in: std_logic_vector(31 downto 0) := (others => '0');
 
     signal cc: std_logic:= '0'; -- The clock for the other components; starts when the state is ready
 
@@ -48,8 +48,8 @@ architecture behavioral of fetch_testbench is
     component if_id_buffer
         port (
             clk, reset, enable : in std_logic;
-            pc_in, instruction_in : in std_logic_vector(31 downto 0)
-            --pc_out, instruction_out : out std_logic_vector(31 downto 0)
+            pc_in, instruction_in : in std_logic_vector(31 downto 0);
+            pc_out, instruction_out : out std_logic_vector(31 downto 0)
           );
     end component;
 
@@ -63,7 +63,7 @@ architecture behavioral of fetch_testbench is
 
 	IM: instruction_memory port map (en, instr_address, instruction);
 
-    IF_ID: if_id_buffer port map (en, '0', '1', instr_address, instruction);
+    IF_ID: if_id_buffer port map (en, '0', '1', instr_address, instruction, pc_out, instruction_out);
 
     process
     begin

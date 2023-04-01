@@ -12,6 +12,7 @@ use IEEE.numeric_std.all;
 
 entity control_unit is
     port(
+        clk: in std_logic;
         opcode: in std_logic_vector(5 downto 0);
         funct: in std_logic_vector(5 downto 0);
 
@@ -20,7 +21,7 @@ entity control_unit is
         alu_src: out std_logic;
         mem_read: out std_logic;
         mem_write: out std_logic;
-        branch: out std_logic;
+        branch: out std_logic := '0';
         jump: out std_logic;
         pc_src: out std_logic;
         mem_to_reg: out std_logic;
@@ -34,6 +35,7 @@ architecture control of control_unit is
 begin
     process(opcode, funct)
     begin
+        if clk = '1' then
         case opcode is
             when "000000" => -- R-type
                 reg_dst <= '1';
@@ -138,5 +140,6 @@ begin
                 jump <= '0';
                 pc_src <= '0';
         end case;
+        end if;
     end process;
 end control;

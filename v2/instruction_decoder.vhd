@@ -30,7 +30,7 @@ architecture behavioral of instruction_decoder is
 begin
     process(clk, reset)
     begin
-        if reset = '1' then
+        if reset = '1' and clk = '0' then
             opcode <= (others => '0');
             funct <= (others => '0');
             rs <= (others => '0');
@@ -39,7 +39,7 @@ begin
             shamt <= (others => '0');
             immediate <= (others => '0');
             address <= (others => '0');
-        elsif clk = '1' then
+        elsif clk = '1' and reset = '0' then
             opcode <= instruction(31 downto 26);
             funct <= instruction(5 downto 0);
             rs <= instruction(25 downto 21);

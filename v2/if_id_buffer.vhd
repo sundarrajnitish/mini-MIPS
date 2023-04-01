@@ -18,17 +18,29 @@ entity if_id_buffer is
 end if_id_buffer;
 
 architecture behavioral of if_id_buffer is
-begin
-    process(clk, reset)
+    
+    type if_id_buffer_type is record
+    pc : std_logic_vector(31 downto 0);
+    instruction : std_logic_vector(31 downto 0);
+    end record;
+
+    signal if_id_buffer_reg : if_id_buffer_type := (pc => (others => '0'), instruction => (others => '0'));
+
     begin
-        if (reset = '1') then
-            pc_out <= (others => '0');
-            instruction_out <= (others => '0');
-        elsif (clk'event and clk = '0') then
-            if (enable = '1') then
-                pc_out <= pc_in;
-                instruction_out <= instruction_in;
+    process (clk, reset)
+    begin
+        if reset = '1' then
+            if_id_buffer_reg.pc <= (others => '0');
+            if_id_buffer_reg.instruction <= (others => '0');
+        elsif rising_edge(clk) then
+            if enable = '1' then
+                if_id_buffer_reg.pc <= pc_in;
+                if_id_buffer_reg.instruction <= instruction_in;
             end if;
         end if;
     end process;
-end behavioral;
+
+pc_out <= if_id_buffer_reg.pc;
+instruction_out <= if_id_buffer_reg.instruction;
+
+end architecture behavioral;

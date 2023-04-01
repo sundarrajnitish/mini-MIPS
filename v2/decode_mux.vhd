@@ -13,21 +13,21 @@ use ieee.numeric_std.all;
 
 entity decode_mux is
     port(
-        rt: in std_logic_vector(31 downto 0);
-        rd: in std_logic_vector(31 downto 0);
+        rt: in std_logic_vector(4 downto 0);
+        rd: in std_logic_vector(4 downto 0);
         reg_dst: in std_logic;
-        write_register: out std_logic_vector(31 downto 0)
+        d_write_register: out std_logic_vector(4 downto 0)
     );
 end entity decode_mux;
 
 architecture behavioral of decode_mux is
     begin
-        process (input_1, input_2, reg_dst)
+        process (rt, rd, reg_dst)
         begin
             if (reg_dst = '0') then
-                write_register <= rs;
+                d_write_register <= rt;
             elsif (reg_dst = '1') then
-                write_register <= rd;
+                d_write_register <= rd;
             end if;
         end process;
     end architecture behavioral;
