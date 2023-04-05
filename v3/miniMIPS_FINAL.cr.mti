@@ -1,0 +1,38 @@
+C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/IF_mux_1.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/IF_mux_1.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity if_mux_1
+-- Compiling architecture behavioral of if_mux_1
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/IF_mux_2.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/IF_mux_2.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity if_mux_2
+-- Compiling architecture behavioral of if_mux_2
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/instruction_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/instruction_memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity instruction_memory
+-- Compiling architecture behavioral of instruction_memory
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/program_counter.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v3/program_counter.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity program_counter
+-- Compiling architecture behavioral of program_counter
+
+} {} {}}
