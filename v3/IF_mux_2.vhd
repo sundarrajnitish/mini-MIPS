@@ -25,11 +25,11 @@ architecture behavioral of if_mux_2 is
     begin
         process (jr, j, address, select_signal)
         begin
-            if (select_signal = "00") then
+            if (select_signal = "10") then
                 output_port <= jr;
             elsif (select_signal = "01") then
                 output_port <= j;
-            elsif (select_signal = "10") then
+            elsif (select_signal = "00") then
                 output_port <= address;
             end if;
         end process;
