@@ -1,0 +1,235 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/sunda/Desktop/GitHub/mini-MIPS/v5
+Ebranch_mux
+Z1 w1680894694
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 77
+R0
+Z5 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/branch_mux.vhd
+Z6 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/branch_mux.vhd
+l0
+L14 1
+V5?N`B2BdloX;aO2RLb5mm1
+!s100 O3XABS[nD4`A^Ofgi38<G0
+Z7 OV;C;2020.1;71
+32
+Z8 !s110 1680894903
+!i10b 1
+Z9 !s108 1680894903.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/branch_mux.vhd|
+Z11 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/branch_mux.vhd|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Abehavioral
+R2
+R3
+R4
+Z14 DEx4 work 10 branch_mux 0 22 5?N`B2BdloX;aO2RLb5mm1
+!i122 77
+l27
+L26 12
+VSXEfOWf^OH_7eGiTD5T[o3
+!s100 08kiej:]R[4IgIdWV3i@J3
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Eif_id_buffer
+Z15 w1680889538
+R2
+R3
+R4
+!i122 79
+R0
+Z16 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/if_id_buffer.vhd
+Z17 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/if_id_buffer.vhd
+l0
+Z18 L13 1
+VoNTH2V>a;igcV8G3dMI<N3
+!s100 T:JS;H_9U2CH<K8PJC7zT1
+R7
+32
+R8
+!i10b 1
+R9
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/if_id_buffer.vhd|
+Z20 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/if_id_buffer.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+R2
+R3
+R4
+Z21 DEx4 work 12 if_id_buffer 0 22 oNTH2V>a;igcV8G3dMI<N3
+!i122 79
+l34
+L33 31
+VUfH?H;LQ]Refe?5UaL@BD2
+!s100 BYhDE]E9QGPgF6:0mkT6d2
+R7
+32
+R8
+!i10b 1
+R9
+R19
+R20
+!i113 1
+R12
+R13
+Einstruction_memory
+Z22 w1680889494
+R2
+R3
+R4
+!i122 80
+R0
+Z23 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/instruction_memory.vhd
+Z24 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/instruction_memory.vhd
+l0
+R18
+VIhJdA:27;SY4_c`Td2B[z1
+!s100 E>a@]UXXeWd3A@oia;2]K0
+R7
+32
+Z25 !s110 1680894904
+!i10b 1
+Z26 !s108 1680894904.000000
+Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/instruction_memory.vhd|
+Z28 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/instruction_memory.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+R2
+R3
+R4
+Z29 DEx4 work 18 instruction_memory 0 22 IhJdA:27;SY4_c`Td2B[z1
+!i122 80
+l24
+L22 78
+VIE<:[POdf1_iTVoch]aOf0
+!s100 R==SKg:zJX>^fXzl^Y36F3
+R7
+32
+R25
+!i10b 1
+R26
+R27
+R28
+!i113 1
+R12
+R13
+Eprogram_counter
+Z30 w1680891022
+Z31 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z32 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+R3
+R4
+!i122 81
+R0
+Z33 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/program_counter.vhd
+Z34 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/program_counter.vhd
+l0
+R18
+VM`:RG4UCJKb2nW;NNea3;2
+!s100 7A[1LHdFUlSSiSlO]eDNh0
+R7
+32
+R25
+!i10b 1
+R26
+Z35 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/program_counter.vhd|
+Z36 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/program_counter.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+R31
+R32
+R3
+R4
+Z37 DEx4 work 15 program_counter 0 22 M`:RG4UCJKb2nW;NNea3;2
+!i122 81
+l27
+Z38 L23 18
+Z39 Vg]8KS@6GSgK:C7XiBj>K32
+Z40 !s100 Ro]Sg?6FJd1@^VWcKYnYn2
+R7
+32
+R25
+!i10b 1
+R26
+R35
+R36
+!i113 1
+R12
+R13
+Etest_bench
+Z41 w1680894896
+R31
+R32
+R3
+R4
+!i122 78
+R0
+Z42 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/fetch_testbench.vhd
+Z43 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/fetch_testbench.vhd
+l0
+R18
+V18MiU2N4KOoILnU8YHRKA3
+!s100 344R]dZ<VN=PFYM<<<Y^c0
+R7
+32
+R8
+!i10b 1
+R9
+Z44 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/fetch_testbench.vhd|
+Z45 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v5/fetch_testbench.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+R21
+R29
+R37
+R2
+R14
+R31
+R32
+R3
+R4
+DEx4 work 10 test_bench 0 22 18MiU2N4KOoILnU8YHRKA3
+!i122 78
+l47
+L16 53
+V2ADkTB=CIPm2EcBUNJ=2Z3
+!s100 9a4<GA0Ud:Q^HbEneOh3^0
+R7
+32
+R8
+!i10b 1
+R9
+R44
+R45
+!i113 1
+R12
+R13
