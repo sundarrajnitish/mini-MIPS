@@ -1,0 +1,234 @@
+m255
+K4
+z2
+!s11e MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/sunda/Desktop/GitHub/mini-MIPS/v6
+Ebranch_mux
+Z1 w1680903131
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 33
+R0
+Z5 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/branch_mux.vhd
+Z6 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/branch_mux.vhd
+l0
+Z7 L14 1
+Vi;42>4TGI@W]]M2DGH0z^3
+!s100 dYK?mWiOE?6>3O8Wm;hf;1
+Z8 OV;C;2020.1;71
+32
+Z9 !s110 1680904492
+!i10b 1
+Z10 !s108 1680904492.000000
+Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/branch_mux.vhd|
+Z12 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/branch_mux.vhd|
+!i113 1
+Z13 o-work work -2002 -explicit
+Z14 tExplicit 1 CvgOpt 0
+Abehavioral
+R2
+R3
+R4
+Z15 DEx4 work 10 branch_mux 0 22 i;42>4TGI@W]]M2DGH0z^3
+!i122 33
+l25
+L24 13
+VT[O:R<dM<V]n^dMI204_b3
+!s100 dO4mYO:MRLgOhHM=MGWdc3
+R8
+32
+R9
+!i10b 1
+R10
+R11
+R12
+!i113 1
+R13
+R14
+Einstruction_memory
+Z16 w1680903163
+R2
+R3
+R4
+!i122 36
+R0
+Z17 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/instruction_memory.vhd
+Z18 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/instruction_memory.vhd
+l0
+Z19 L13 1
+VIhJdA:27;SY4_c`Td2B[z1
+!s100 E>a@]UXXeWd3A@oia;2]K0
+R8
+32
+Z20 !s110 1680904493
+!i10b 1
+Z21 !s108 1680904493.000000
+Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/instruction_memory.vhd|
+Z23 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/instruction_memory.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R3
+R4
+DEx4 work 18 instruction_memory 0 22 IhJdA:27;SY4_c`Td2B[z1
+!i122 36
+l24
+L22 78
+VIE<:[POdf1_iTVoch]aOf0
+!s100 R==SKg:zJX>^fXzl^Y36F3
+R8
+32
+R20
+!i10b 1
+R21
+R22
+R23
+!i113 1
+R13
+R14
+Ejump_mux
+Z24 w1680904123
+R2
+R3
+R4
+!i122 34
+R0
+Z25 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/jump_mux.vhd
+Z26 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/jump_mux.vhd
+l0
+R7
+VoQizaW_e::BzlheTHGkE33
+!s100 e]5SX]Xg857kfz]DbzdXJ2
+R8
+32
+R20
+!i10b 1
+R21
+Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/jump_mux.vhd|
+Z28 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/jump_mux.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R3
+R4
+Z29 DEx4 work 8 jump_mux 0 22 oQizaW_e::BzlheTHGkE33
+!i122 34
+l26
+L25 12
+V^iQb0Fi76VM_;mWW[@ag`2
+!s100 zQW4RHYd20d@j2IFeoe7P2
+R8
+32
+R20
+!i10b 1
+R21
+R27
+R28
+!i113 1
+R13
+R14
+Eprogram_counter
+Z30 w1680904375
+Z31 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z32 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+R3
+R4
+!i122 35
+R0
+Z33 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/program_counter.vhd
+Z34 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/program_counter.vhd
+l0
+R19
+Vf7B];VP`8gIeo7JW2<MDU1
+!s100 J1kZBmLbQ2C74ET;Nle091
+R8
+32
+R20
+!i10b 1
+R21
+Z35 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/program_counter.vhd|
+Z36 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/program_counter.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R31
+R32
+R3
+R4
+Z37 DEx4 work 15 program_counter 0 22 f7B];VP`8gIeo7JW2<MDU1
+!i122 35
+l27
+L24 15
+VmghQWMDLn3GoE6F;SU@Y71
+!s100 RJ3Xk;c^=hGW];jbXkD3_3
+R8
+32
+R20
+!i10b 1
+R21
+R35
+R36
+!i113 1
+R13
+R14
+Etest_bench
+Z38 w1680904490
+R31
+R32
+R3
+R4
+!i122 37
+R0
+Z39 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/fetch_testbench.vhd
+Z40 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/fetch_testbench.vhd
+l0
+L5 1
+VBK7Wezn_RgHUUYQaE8=511
+!s100 CVzjAaa^DLQZ`f3=O`4hN1
+R8
+32
+R20
+!i10b 1
+R21
+Z41 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/fetch_testbench.vhd|
+Z42 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v6/fetch_testbench.vhd|
+!i113 1
+R13
+R14
+Atest
+R37
+R29
+R2
+R15
+R31
+R32
+R3
+R4
+Z43 DEx4 work 10 test_bench 0 22 BK7Wezn_RgHUUYQaE8=511
+!i122 37
+l29
+Z44 L8 58
+V5^N^jliQQ1P6llK?]i1kc0
+!s100 0nfnK3kIDXPK=HcSGN<c93
+R8
+32
+R20
+!i10b 1
+R21
+R41
+R42
+!i113 1
+R13
+R14
