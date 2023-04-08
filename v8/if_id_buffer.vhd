@@ -47,7 +47,7 @@ begin
             immediate <= (others => '0');
             jump_address <= (others => '0');
             report "IF/ID Buffer Flushed";
-        elsif flush = '0' then
+        else
             pc_4 <= next_address;
             pc_concat <= next_address(31 downto 28);
             opcode <= instruction(31 downto 26);
