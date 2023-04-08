@@ -30,9 +30,10 @@ architecture behavioral of register_memory is
     signal r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30, r31: std_logic_vector(31 downto 0) := (others => '0');
     begin
 
-        process (read_register_1, read_register_2, write_register, write_data)
+        process (clk, reg_write, read_register_1, read_register_2, write_register, write_data)
         begin
             if rising_edge(clk) then
+                if reg_write = '0' then
             case read_register_1 is
                 when "00000" => --0 -- each address represents a 5-bit value for 32 registers
                     read_data_1 <= r0;
@@ -99,7 +100,7 @@ architecture behavioral of register_memory is
                 when "11111" => --31
                     read_data_1 <= r31;
                 when others =>
-                    read_data_1 <= (others => '0');
+                    null;
             end case;
                 case read_register_2 is
                     when "00000" => --0
@@ -167,10 +168,9 @@ architecture behavioral of register_memory is
                     when "11111" => --31
                         read_data_2 <= r31;
                     when others =>
-                        read_data_2 <= (others => '0');
+                        null;
                 end case;
-                end if;
-                    if rising_edge(clk) and reg_write = '1' then
+                    elsif reg_write = '1' then
                         --wait until rising_edge(clk);
                         case write_register is
                             when "00000" => --0
@@ -240,6 +240,7 @@ architecture behavioral of register_memory is
                             when others =>
                                 null;
                         end case;
+                        end if;
                         end if;
     
         end process;

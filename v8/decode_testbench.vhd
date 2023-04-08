@@ -18,6 +18,7 @@ architecture behavioral of decode_test_bench is
     signal en : std_logic := '0';
 
     --signals for branch_mux
+    signal branch_load_address : std_logic_vector(31 downto 0) := (others => '0');
     signal branch_address : std_logic_vector(31 downto 0) := (others => '0');
     signal jump : std_logic_vector(31 downto 0) := (others => '0');
     signal jump_reg : std_logic_vector(31 downto 0) := (others => '0');
@@ -44,10 +45,17 @@ architecture behavioral of decode_test_bench is
     signal if_id_immediate : std_logic_vector(15 downto 0):= (others => '0');
     signal if_id_jump_address : std_logic_vector(25 downto 0):= (others => '0');
 
+    --signals for register_file
+    signal mem_wb_reg_write : std_logic := '0';
+    signal mem_wb_rd : std_logic_vector(4 downto 0):= (others => '0');
+    signal wb_data : std_logic_vector(31 downto 0):= (others => '0');
+    signal register_data_1 : std_logic_vector(31 downto 0):= (others => '0');
+    signal register_data_2 : std_logic_vector(31 downto 0):= (others => '0');
+
 begin 
     --Fetch Stage
     branch_mux: entity work.branch_mux
-        port map(branch_address => branch_address, j => jump, jr => jump_reg, select_signal => branch_mux_select, output_port => branch_mux_output);
+        port map(branch_address => branch_address, j => jump, jr => jump_reg, load_address => branch_load_address, select_signal => branch_mux_select, output_port => branch_mux_output);
     p_count: entity work.program_counter
         port map(clk => en, pc_write => pc_write, branch_address => branch_mux_output, output_address => pc_output);
     im: entity work.instruction_memory
@@ -56,6 +64,9 @@ begin
         port map(clk => en, flush => if_id_flush, instruction => im_output, next_address => pc_output, pc_4 => if_id_pc_4, pc_concat => if_id_concat, opcode => if_id_opcode, funct => if_id_funct, rs => if_id_rs, rt => if_id_rt, rd => if_id_rd, shamt => if_id_shamt, immediate => if_id_immediate, jump_address => if_id_jump_address);
 
     --Decode Stage
+
+    register_file: entity work.register_memory
+        port map(clk => en, reg_write => mem_wb_reg_write, read_register_1 => if_id_rs, read_register_2 => if_id_rt, write_register => mem_wb_rd, write_data => wb_data, read_data_1 => register_data_1, read_data_2 => register_data_2);
 
         process
         begin   

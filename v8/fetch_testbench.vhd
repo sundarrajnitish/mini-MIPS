@@ -18,6 +18,7 @@ architecture behavioral of fetch_test_bench is
     signal en : std_logic := '0';
 
     --signals for branch_mux
+    signal branch_load_address : std_logic_vector(31 downto 0) := (others => '0');
     signal branch_address : std_logic_vector(31 downto 0) := (others => '0');
     signal jump : std_logic_vector(31 downto 0) := (others => '0');
     signal jump_reg : std_logic_vector(31 downto 0) := (others => '0');
@@ -46,7 +47,7 @@ architecture behavioral of fetch_test_bench is
 
 begin 
     branch_mux: entity work.branch_mux
-        port map(branch_address => branch_address, j => jump, jr => jump_reg, select_signal => branch_mux_select, output_port => branch_mux_output);
+        port map(branch_address => branch_address, j => jump, jr => jump_reg, load_address => branch_load_address, select_signal => branch_mux_select, output_port => branch_mux_output);
     p_count: entity work.program_counter
         port map(clk => en, pc_write => pc_write, branch_address => branch_mux_output, output_address => pc_output);
     im: entity work.instruction_memory
