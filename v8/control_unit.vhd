@@ -32,7 +32,7 @@ architecture behavioral of control_unit is
 begin
     process(opcode, funct)
     begin
-        if rising_edge(clk)
+        if rising_edge(clk) then
         if flush = '1' then
             alu_src <= '0';
             reg_dst <= '0';
@@ -42,9 +42,9 @@ begin
             mem_to_reg <= '0';
             reg_write <= '0';
             jump_jr <= "00";
-        else
+        elsif flush = '0' then
         case opcode is
-            when "000000" and "100111" --NOR
+            when "000000" => -- R-type General
                 alu_src <= '0';
                 reg_dst <= '1';
                 branch <= '0';
@@ -53,34 +53,8 @@ begin
                 mem_to_reg <= '0';
                 reg_write <= '1';
                 jump_jr <= "00";
-            when "000000" and "000000" --SLL
-                alu_src <= '0';
-                reg_dst <= '1';
-                branch <= '0';
-                mem_read <= '0';
-                mem_write <= '0';
-                mem_to_reg <= '0';
-                reg_write <= '1';
-                jump_jr <= "00";
-            when "000000" and "100110" --XOR
-                alu_src <= '0';
-                reg_dst <= '1';
-                branch <= '0';
-                mem_read <= '0';
-                mem_write <= '0';
-                mem_to_reg <= '0';
-                reg_write <= '1';
-                jump_jr <= "00";
-            when "000000" and "100000" --ADD
-                lu_src <= '0';
-                reg_dst <= '1';
-                branch <= '0';
-                mem_read <= '0';
-                mem_write <= '0';
-                mem_to_reg <= '0';
-                reg_write <= '1';
-                jump_jr <= "00";
-            when "000000" and "001000" --JR
+            case funct is
+            when "001000" => --JR
                 alu_src <= '0';
                 reg_dst <= '0';
                 branch <= '0';
@@ -89,6 +63,16 @@ begin
                 mem_to_reg <= '0';
                 reg_write <= '0';
                 jump_jr <= "10";
+            when others =>
+                alu_src <= '0';
+                reg_dst <= '1';
+                branch <= '0';
+                mem_read <= '0';
+                mem_write <= '0';
+                mem_to_reg <= '0';
+                reg_write <= '1';
+                jump_jr <= "00";
+            end case;
             when "001100" => -- ANDI
                 alu_src <= '1';
                 reg_dst <= '0';

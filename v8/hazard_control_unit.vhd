@@ -31,53 +31,74 @@ entity hazard_control_unit is
 end hazard_control_unit;
 
 architecture behavioral of hazard_control_unit is
+
+    signal temp_rs : std_logic_vector(4 downto 0) := (others => '0');
+    signal temp_rt : std_logic_vector(4 downto 0) := (others => '0');
+
     begin
-        process(pc_4, and_branch, jump_jr, mem_wb_mem_to_reg)
+        process(pc, and_branch, jump_jr, mem_wb_mem_to_reg)
         begin
-        if rising_edge(clk) 
-        case and_branch =>
+        if rising_edge(clk) then
+        case and_branch is
             when '1' =>
                 jump_mux_signal <= "11";
                 if_id_flush <= '1';
                 control_flush <= '1';
                 id_ex_flush <= '1';
-                branch_address <= (others => '0')
+                branch_address <= (others => '0');
+            when others =>
+                jump_mux_signal <= "00";
+                if_id_flush <= '0';
+                control_flush <= '0';
+                id_ex_flush <= '0';
+                branch_address <= (others => '0');
         end case;
         
-        case jump_jr =>
+        case jump_jr is
             when "01" =>
                 jump_mux_signal <= "01"; --jump
                 if_id_flush <= '1';
                 control_flush <= '1';
                 id_ex_flush <= '1';
-                branch_address <= (others => '0')
+                branch_address <= (others => '0');
             when "10" =>
                 jump_mux_signal <= "10"; --jr
                 if_id_flush <= '1';
                 control_flush <= '1';
                 id_ex_flush <= '1';
-                branch_address <= (others => '0')
+                branch_address <= (others => '0');
+            when others =>
+                jump_mux_signal <= "00";
+                if_id_flush <= '0';
+                control_flush <= '0';
+                id_ex_flush <= '0';
+                branch_address <= (others => '0');
         end case;
 
-        case mem_wb_mem_to_reg =>
+        case mem_wb_mem_to_reg is
             when '1' =>
                 jump_mux_signal <= "00";
                 if_id_flush <= '0';
                 control_flush <= '0';
                 id_ex_flush <= '0';
-                branch_address <= (others => '0')
-            case ex_mem_rd => 
-                when rs =>
+                branch_address <= (others => '0');
+            when others =>
+            if (ex_mem_rd = rs) then
                     if_id_flush <= '1';
                     control_flush <= '1';
                     id_ex_flush <= '1';
-                    branch_address <= pc
-                when rt =>
+                    branch_address <= pc;
+            elsif (ex_mem_rd = rt) then
                     if_id_flush <= '1';
                     control_flush <= '1';
                     id_ex_flush <= '1';
-                    branch_address <= pc
-            end case;
+                    branch_address <= pc;
+            else
+                    if_id_flush <= '0';
+                    control_flush <= '0';
+                    id_ex_flush <= '0';
+                    branch_address <= (others => '0');
+            end if;
         end case;
         end if;
     end process;
