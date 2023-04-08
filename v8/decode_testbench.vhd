@@ -8,6 +8,7 @@
 
 library IEEE;
 use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity decode_test_bench is
@@ -52,7 +53,37 @@ architecture behavioral of decode_test_bench is
     signal register_data_1 : std_logic_vector(31 downto 0):= (others => '0');
     signal register_data_2 : std_logic_vector(31 downto 0):= (others => '0');
 
+    --signals for hazard_control
+    signal id_ex_flush : std_logic := '0';
+    signal pc : std_logic_vector(31 downto 0) := (others => '0');
+    signal ex_mem_branch : std_logic := '0';
+    signal ex_mem_rd : std_logic_vector(4 downto 0):= (others => '0');
+    signal mem_ex_memread : std_logic := '0';
+    signal jump_mux_signal : std_logic_vector(1 downto 0) := (others => '0');
+    signal control_flush : std_logic := '0';
+    
+
+    --signals for control_unit
+    signal cu_flush : std_logic := '0';
+    signal cu_alu_src : std_logic := '0';
+    signal cu_reg_dst : std_logic := '0';
+    signal cu_branch : std_logic := '0';
+    signal cu_mem_read : std_logic := '0';
+    signal cu_mem_write : std_logic := '0';
+    signal cu_mem_to_reg : std_logic := '0';
+    signal cu_reg_write : std_logic := '0';
+    signal cu_jump_jr : std_logic_vector (1 downto 0) := (others => '0');
+
+    --signals for sign_extend
+    signal sign_extend_output : std_logic_vector(31 downto 0):= (others => '0');
+
+    --signals for jump_address_calculator
+    signal jump_address_calculator_output : std_logic_vector(31 downto 0):= (others => '0');
+    
+
+
 begin 
+    pc <= std_logic_vector(unsigned(pc_output) - 4);
     --Fetch Stage
     branch_mux: entity work.branch_mux
         port map(branch_address => branch_address, j => jump, jr => jump_reg, load_address => branch_load_address, select_signal => branch_mux_select, output_port => branch_mux_output);
@@ -68,6 +99,22 @@ begin
     register_file: entity work.register_memory
         port map(clk => en, reg_write => mem_wb_reg_write, read_register_1 => if_id_rs, read_register_2 => if_id_rt, write_register => mem_wb_rd, write_data => wb_data, read_data_1 => register_data_1, read_data_2 => register_data_2);
 
+    hazard_control: entity work.hazard_control_unit
+        port map(clk => en, pc => pc, and_branch => ex_mem_branch, jump_jr => cu_jump_jr, mem_ex_memread => mem_ex_memread, rs => if_id_rs, rt => if_id_rt, ex_mem_rd => ex_mem_rd, jump_mux_signal => jump_mux_signal, if_id_flush => if_id_flush, control_flush => control_flush, id_ex_flush => id_ex_flush, branch_address => branch_load_address);
+    
+    control_unit: entity work.control_unit
+        port map(clk => en, flush => cu_flush ,opcode => if_id_opcode, funct => if_id_funct, alu_src => cu_alu_src, reg_dst => cu_reg_dst, branch => cu_branch, mem_read => cu_mem_read, mem_write => cu_mem_write, mem_to_reg => cu_mem_to_reg, reg_write => cu_reg_write, jump_jr => cu_jump_jr);
+    
+    sign_extender: entity work.sign_extend
+        port map(input_data => if_id_immediate, sign_extended_data => sign_extend_output);
+
+    jump_address_calculator: entity work.jump_address_calc
+        port map(input_address => if_id_jump_address, pc_concat => if_id_concat, jump_address => jump_address_calculator_output);
+
+    
+    
+    --Execute Stage
+        
         process
         begin   
         for i in 0 to 20 loop

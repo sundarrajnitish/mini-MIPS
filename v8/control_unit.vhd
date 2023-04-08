@@ -30,7 +30,7 @@ end control_unit;
 
 architecture behavioral of control_unit is
 begin
-    process(opcode, funct)
+    process(clk, flush, opcode, funct)
     begin
         if rising_edge(clk) then
         if flush = '1' then

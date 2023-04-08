@@ -34,7 +34,8 @@ architecture behavioral of if_id_buffer is
 begin
     process(clk, flush, instruction, next_address)
     begin
-        if flush = '1' and falling_edge(clk) then
+        if falling_edge(clk) then
+            if flush = '1' then
             pc_4 <= (others => '0');
             pc_concat <= (others => '0');
             opcode <= (others => '0');
@@ -46,7 +47,7 @@ begin
             immediate <= (others => '0');
             jump_address <= (others => '0');
             report "IF/ID Buffer Flushed";
-        elsif falling_edge(clk) and flush = '0' then
+        elsif flush = '0' then
             pc_4 <= next_address;
             pc_concat <= next_address(31 downto 28);
             opcode <= instruction(31 downto 26);
@@ -59,6 +60,7 @@ begin
             jump_address <= instruction(25 downto 0);
             report "IF/ID Buffer Updated";
         end if;
+    end if;
     end process;
 end behavioral;
 

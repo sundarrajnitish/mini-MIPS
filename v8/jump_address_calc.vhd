@@ -19,13 +19,13 @@ entity jump_address_calc is
 end jump_address_calc;
 
 architecture behavioral of jump_address_calc is
-
-    signal shift_lefted : std_logic_vector(27 downto 0) := (others => '0');
+    signal shift_lefted : std_logic_vector(27 downto 0);
 
     begin
     process (input_address, pc_concat)
+        
     begin
-        shift_lefted <= input_address & "00";
-        jump_address <= pc_concat & shift_lefted; 
+        shift_lefted <= std_logic_vector(input_address & "00");
+        jump_address <= pc_concat & shift_lefted;
     end process;
     end behavioral;

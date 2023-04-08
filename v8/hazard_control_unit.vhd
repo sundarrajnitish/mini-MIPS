@@ -16,7 +16,7 @@ entity hazard_control_unit is
         pc : in std_logic_vector(31 downto 0);
         and_branch : in std_logic;
         jump_jr : in std_logic_vector(1 downto 0);
-        mem_wb_mem_to_reg : in std_logic;
+        mem_ex_memread : in std_logic;
         rs : in std_logic_vector(4 downto 0);
         rt : in std_logic_vector(4 downto 0);
         ex_mem_rd : in std_logic_vector(4 downto 0);
@@ -36,7 +36,7 @@ architecture behavioral of hazard_control_unit is
     signal temp_rt : std_logic_vector(4 downto 0) := (others => '0');
 
     begin
-        process(pc, and_branch, jump_jr, mem_wb_mem_to_reg)
+        process(clk, pc, and_branch, jump_jr, mem_ex_memread)
         begin
         if rising_edge(clk) then
         case and_branch is
@@ -75,14 +75,14 @@ architecture behavioral of hazard_control_unit is
                 branch_address <= (others => '0');
         end case;
 
-        case mem_wb_mem_to_reg is
-            when '1' =>
+        case mem_ex_memread is
+            when '0' =>
                 jump_mux_signal <= "00";
                 if_id_flush <= '0';
                 control_flush <= '0';
                 id_ex_flush <= '0';
                 branch_address <= (others => '0');
-            when others =>
+            when '1' =>
             if (ex_mem_rd = rs) then
                     if_id_flush <= '1';
                     control_flush <= '1';
@@ -99,6 +99,12 @@ architecture behavioral of hazard_control_unit is
                     id_ex_flush <= '0';
                     branch_address <= (others => '0');
             end if;
+            when others =>
+                jump_mux_signal <= "00";
+                if_id_flush <= '0';
+                control_flush <= '0';
+                id_ex_flush <= '0';
+                branch_address <= (others => '0');
         end case;
         end if;
     end process;
