@@ -65,15 +65,18 @@ architecture behavioral of hazard_control_unit is
                 if_id_flush <= '0';
                 control_flush <= '0';
                 id_ex_flush <= '0';
+                branch_address <= (others => '0')
             case ex_mem_rd => 
                 when rs =>
                     if_id_flush <= '1';
                     control_flush <= '1';
                     id_ex_flush <= '1';
+                    branch_address <= pc
                 when rt =>
                     if_id_flush <= '1';
                     control_flush <= '1';
                     id_ex_flush <= '1';
+                    branch_address <= pc
             end case;
         end case;
         end if;

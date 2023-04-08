@@ -16,6 +16,7 @@ entity branch_mux is
         branch_address: in std_logic_vector(31 downto 0);
         j: in std_logic_vector(31 downto 0);
         jr: in std_logic_vector(31 downto 0);
+        load_address: in std_logic_vector(31 downto 0);
         select_signal: in std_logic_vector(1 downto 0);
 
         output_port: out std_logic_vector(31 downto 0)
@@ -30,7 +31,8 @@ architecture behavioral of branch_mux is
                     when "00" => output_port <= branch_address;
                     when "01" => output_port <= j;
                     when "10" => output_port <= jr;
-                    when others => output_port <= (others => '0');
+                    when "11" => output_port <= load_address;
+                    when others => output_port <= branch_address;
                 end case;
         end process;
     end architecture behavioral;
