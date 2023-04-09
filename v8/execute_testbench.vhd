@@ -11,10 +11,10 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity decode_test_bench is
-end decode_test_bench;
+entity execute_test_bench is
+end execute_test_bench;
 
-architecture behavioral of decode_test_bench is
+architecture behavioral of execute_test_bench is
     --common clock for all components
     signal en : std_logic := '0';
 
