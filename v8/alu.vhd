@@ -25,8 +25,29 @@ end alu;
 
 architecture behavioral of alu is
 
+    signal temp_alu_result : std_logic_vector(31 downto 0);
+
     begin 
-    process (clk, aluop, input_a, input_b)
+    process (clk, aluop, input_a, input_b, shamt)
     begin
-        case alu_op is
-            when "011" => alu_result <= input_a nor input_b;
+        if rising_edge(clk) then
+        case aluop is
+            when "011" => temp_alu_result <= input_a nor input_b;
+            when "100" => temp_alu_result <= std_logic_vector(shift_left(unsigned(input_a), to_integer(unsigned(shamt))));
+            when "010" => temp_alu_result <= input_a xor input_b;
+            when "000" => temp_alu_result <= std_logic_vector(unsigned(input_a) + unsigned(input_b));
+
+            when "001" => temp_alu_result <= input_a and input_b;
+            when "110" => temp_alu_result <= std_logic_vector(unsigned(input_a) - to_integer(unsigned(input_b)));
+            when others =>
+                null;
+        end case;
+        alu_result <= temp_alu_result;
+        case temp_alu_result is
+            when "00000000000000000000000000000000" => zero <= '1';
+            when others => zero <= '0';
+        end case;
+        end if;
+    end process;
+end behavioral;
+

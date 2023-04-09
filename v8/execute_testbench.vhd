@@ -119,6 +119,15 @@ architecture behavioral of decode_test_bench is
     --signals for alu_control
     signal alu_op : std_logic_vector(2 downto 0):= (others => '0');
 
+    --signals for alu
+    signal alu_output : std_logic_vector(31 downto 0):= (others => '0');
+    signal alu_zero : std_logic := '0';
+
+    --signals for forwarding unit
+    signal fd1 : std_logic_vector(31 downto 0):= (others => '0');
+    signal fd2 : std_logic_vector(31 downto 0):= (others => '0');
+
+
     
 begin 
     pc <= std_logic_vector(unsigned(pc_output) - 4);
@@ -212,8 +221,13 @@ begin
     fd_mux_b: entity work.fd_mux_b
         port map(rd2 => rd2_se32_mux_output, fd2 => fd2, fd_mux_b_sel => fd_select_2, fd_mux_b_out => fd_mux_b_output);
     
-    alu_control: entity work.alu_control
+    alu_control: entity work.alu_control_unit
         port map(clk => en, opcode => id_ex_opcode, funct => id_ex_funct, alu_op => alu_op);
+
+    alu: entity work.alu
+        port map(clk => en, aluop => alu_op, shamt => id_ex_shamt ,input_a => fd_mux_a_output, input_b => fd_mux_b_output, alu_result => alu_output, zero => alu_zero);
+
+    
     
         
         process
