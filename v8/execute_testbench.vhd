@@ -99,6 +99,26 @@ architecture behavioral of decode_test_bench is
     signal id_ex_mem_write : std_logic := '0';
     signal id_ex_reg_dst : std_logic := '0';
     signal id_ex_alu_src : std_logic := '0';
+
+    --signals for rd2_se32_mux
+    signal rd2_se32_mux_output : std_logic_vector(31 downto 0):= (others => '0');
+
+    --signals for rt_rd_mux
+    signal rt_rd_mux_output : std_logic_vector(4 downto 0):= (others => '0');
+
+    --signals for fd_mux_a
+    signal fd_mux_a_output : std_logic_vector(31 downto 0):= (others => '0');
+    signal fd_select_1 : std_logic := '0';
+    signal fd_1 : std_logic_vector(31 downto 0):= (others => '0');
+
+    --signals for fd_mux_b
+    signal fd_mux_b_output : std_logic_vector(31 downto 0):= (others => '0');
+    signal fd_select_2 : std_logic := '0';
+    signal fd_2 : std_logic_vector(31 downto 0):= (others => '0');
+
+    --signals for alu_control
+    signal alu_op : std_logic_vector(2 downto 0):= (others => '0');
+
     
 begin 
     pc <= std_logic_vector(unsigned(pc_output) - 4);
@@ -179,6 +199,22 @@ begin
         );
     
     --Execute Stage
+
+    rd2_se32_mux: entity work.rd2_se32_mux
+        port map(rd2 => id_ex_read_data2, se32 => id_ex_immediate_32, rd2_se32_mux_sel => id_ex_alu_src, rd2_se32_mux_out => rd2_se32_mux_output);
+
+    rt_rd_mux: entity work.rt_rd_mux
+        port map(rt => id_ex_rt, rd => id_ex_rd, rt_rd_mux_sel => id_ex_reg_dst, rt_rd_mux_out => rt_rd_mux_output);
+
+    fd_mux_a: entity work.fd_mux_a
+        port map(rd1 => id_ex_read_data1, fd1 => fd1, fd_mux_a_sel => fd_select_1, fd_mux_a_out => fd_mux_a_output);
+    
+    fd_mux_b: entity work.fd_mux_b
+        port map(rd2 => rd2_se32_mux_output, fd2 => fd2, fd_mux_b_sel => fd_select_2, fd_mux_b_out => fd_mux_b_output);
+    
+    alu_control: entity work.alu_control
+        port map(clk => en, opcode => id_ex_opcode, funct => id_ex_funct, alu_op => alu_op);
+    
         
         process
         begin   
