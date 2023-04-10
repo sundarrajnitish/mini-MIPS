@@ -170,7 +170,10 @@ architecture behavioral of register_memory is
                     when others =>
                         null;
                 end case;
-                    elsif reg_write = '1' then
+            end if;
+            end if;
+                    if falling_edge(clk)
+                    if reg_write = '1' then
                         --wait until rising_edge(clk);
                         case write_register is
                             when "00000" => --0
@@ -241,7 +244,7 @@ architecture behavioral of register_memory is
                                 null;
                         end case;
                         end if;
-                        end if;
+                    end if;
     
         end process;
         end behavioral;
