@@ -1,0 +1,97 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/sunda/Desktop/GitHub/mini-MIPS/v8
+Eaddress_buffer
+Z0 w1681226769
+Z1 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 0
+Z4 dC:/Users/sunda/Desktop/GitHub/mini-MIPS/v9
+Z5 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/address_buffer.vhd
+Z6 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/address_buffer.vhd
+l0
+L13 1
+V26DaA1m[nOJ?614f?Y8E=1
+!s100 OMA`REc<OzU[N<^^1jEAl1
+Z7 OV;C;2020.1;71
+32
+Z8 !s110 1681227019
+!i10b 1
+Z9 !s108 1681227018.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/address_buffer.vhd|
+Z11 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/address_buffer.vhd|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Abehavioral
+R1
+R2
+R3
+DEx4 work 14 address_buffer 0 22 26DaA1m[nOJ?614f?Y8E=1
+!i122 0
+l32
+L31 12
+VHVSfgjf6UH8GFYYLhV8[c1
+!s100 ?FSLXb4^ii@WTSLgZZHU[2
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Ebranch_mux
+Z14 w1681226936
+R1
+R2
+R3
+!i122 1
+R4
+Z15 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/branch_mux.vhd
+Z16 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/branch_mux.vhd
+l0
+L14 1
+V5P?^zgg0aJU4JBLBjjcK63
+!s100 <AKgk7f_;48LJEPjoS7dd0
+R7
+32
+R8
+!i10b 1
+Z17 !s108 1681227019.000000
+Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/branch_mux.vhd|
+!s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/branch_mux.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+R1
+R2
+R3
+DEx4 work 10 branch_mux 0 22 5P?^zgg0aJU4JBLBjjcK63
+!i122 1
+l27
+L26 12
+V<]=TbTL4JTYdlffJ^Q^A`3
+!s100 Sg7;S;g3JnS2E1TBK;iK91
+R7
+32
+R8
+!i10b 1
+R17
+R18
+Z19 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v9/branch_mux.vhd|
+!i113 1
+R12
+R13

@@ -1,0 +1,314 @@
+%++++++++++++++++++++++++++++++++++++++++
+% Don't modify this section unless you know what you're doing!
+\documentclass[letterpaper,12pt]{article}
+\usepackage{fullpage}
+\renewcommand{\baselinestretch}{1.5} 
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{diagbox}
+\usepackage{csquotes}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in,letterpaper]{geometry} % decreases margins
+\usepackage{textcomp}
+\usepackage{pdfpages}
+\usepackage{float}
+ \usepackage{multirow}
+ \usepackage{booktabs}
+\usepackage{longtable}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\makeatletter
+\let\NAT@parse\undefined
+\makeatother
+\usepackage{hyperref}
+\hypersetup{
+	pdftitle={Report},
+   colorlinks=true,
+   citecolor=blue,
+   linkcolor=blue,
+   urlcolor=blue
+}
+%++++++++++++++++++++++++++++++++++++++++
+\begin{document}
+\include{titlepage}
+\pagebreak 
+\section*{Abstract}
+This project aims to design and implement a pipelined processor called 32-bit mini-MIPS similar to RISC-V. Three instruction formats, including R, I, and J were considered, supporting eleven instructions. The processor was designed using VHDL and implemented with a five-stage pipeline. To prevent hazards, a hazard detection unit and forwarding unit were included. 
+\section{Introduction} \label{intro} %Nitish
+The objective of this project is to design and build a simple pipelined processor called mini-MIPS, which is a simplified version of the MIPS (Microprocessor without Interlocked Pipeline Stages) with an instruction set architecture of 32-bit format. The mini-MIPS processor is related to the RISC (Reduced Instruction Set Computer) which has a fixed number of address identifiers which is highly sought after because of its better performance and high energy efficiency. 
+
+For our implementation of the mini-MIPS, we consider three types of instruction formats namely, “R”, “I”, and “J” types, that supports the operations of eleven instructions for this project namely, “NOR”, “SLL”, “XOR”, “ANDI”, “SUBUI”, “ADD”, “BEQ”, “LW”, “SB”, “JR” and “J”. The mini-MIPS processor was implemented using VHDL with three instruction formats and eleven instructions. It was simulated, compiled, and executed using ModelSim and Microsoft Visual Studio Code. The microprocessor was designed into a five stage pipeline involving stages namely Instruction Fetch (IF), Instruction Decode (ID), Execution (EX), Data Memory (MEM) and Write Back (WB), also we have introduced pipeline buffers between intermediate stages to ease the data transfer between them. To avoid potential hazards such as data hazards and control hazards in the pipeline we have included a Hazard Detection unit in the ID Stage, that handles the control hazards and a Forwarding Unit in the EX stage, that handles forwarding of operand data from a previous instruction to overcome data hazards by resolving data dependencies in the pipelined execution of multiple instructions.
+
+
+The report is organized in several sections covering the design and implementation of a computer processor. The first section covers the instruction set architecture design and encoding. The second section covers the datapath design including the components of the datapath. The third section covers the design of the control unit. The fourth section covers the design of the hazard control unit. The fifth section covers the design of the forwarding unit. Finally, the sixth section covers simulation and testing results. The report concludes with a summary of the processor's design and potential areas for future improvement.
+
+
+\section{Instruction Set Architecture Design and Encoding} \label{sota}
+\subsection{MIPS Instruction formats} %Nitish
+As mentioned before, the implementation of our MIPS processor is based on four instruction formats namely, the R-type, I-type and J-type. These formats define how an instruction is supposed to be decoded and the type of operation to be performed on the given constraint by the microprocessor. So, let us discuss about the instruction formats in more detail to understand their functionality in the processor.
+\subsubsection{R-Type Instructions} %Nour
+R-type instructions are primarily designed for register-based operations. These instructions format is 32-bits long and consists of six individual components. These components include the operational code (OPCODE) which is a 6-bit field, the source register (Rs) with a 5-bit field, target register (Rt) with a 5-bit field, destination register (Rd) with a 5-bit field, shift amount (Shamt) with a 5-bit field, and function with a 6-bit field. In R-type instruction format, the OPCODE is always zero (except  for JR), the Shamt field is used for shifting data, and the function field is used to declare the specific function to be performed. 
+
+Our processor supports five R-type instruction (e.g. ADD, NOR,  XOR, SLL, and JR). ADD, NOR, and XOR involve the opcode, source register operands (rs and rt), destination register operand (rd), shift amount, and function code. ADD performs addition of two register operands, NOR performs a bitwise logical NOR of two register operands, and XOR performs a bitwise logical exclusive OR of two register operands. SLL involves the opcode, source register operand (rt), destination register operand (rd), shift amount, and function code, and it shifts a register operand left by a number of bits specified by the shift amount. JR, on the other hand, only involves the opcode and register operand (rs) and performs an unconditional jump to the address stored in a register operand. The table below shows encoding examples of each of the instructions mentioned.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Instruction & Opcode & Rs & Rt & Rd & Shamt & Function \\
+ & [31:26] & [25:21] & [20:16] & [15:11] & [10:6] & [5:0] \\
+\hline
+ADD \$t0, \$t1, \$t2 & 000000 & 01001 & 01010 & 01000 & 00000 & 100000 \\
+\hline
+NOR \$t0, \$t1, \$t2 & 000000 & 01001 & 01010 & 01000 & 00000 & 100111 \\
+\hline
+XOR \$t0, \$t1, \$t2 & 000000 & 01001 & 01010 & 01000 & 00000 & 100110 \\
+\hline
+SLL \$t0, \$t1, 4 & 000000 & 00000 & 01001 & 01000 & 4 & 000000 \\
+\hline
+JR \$ra & 001000 & Rs & 00000 & 00000 & 00000 & 000000 \\
+\hline
+\end{tabular}
+
+\end{center}
+
+
+
+
+\subsubsection{I-Type Instructions} 
+
+I-instructions, also known as Immediate instructions, are a type of instruction in MIPS that involve immediate values. Immediate values are 16-bit values that are included in the instruction itself, rather than being stored in a register or memory location. The I-instruction format is also 32-bits long and consists of six individual components: OPCODE, Rs, Rt, Immediate value, and Function.
+In I-instructions, the OPCODE field is used to specify the operation to be performed, and the Rs and Rt fields are used to specify the source and destination registers. The Immediate value field is used to specify the immediate value to be used in the operation.
+Our project involves implementing a set of I-instructions, including ADDI, SUBUI, SB, LW, and BEQ.
+
+The ANDI instruction (AND Immediate) performs a bitwise AND between the contents of register "rs" and a sign-extended 16-bit immediate value, storing the result in register "rt".
+The SUBUI instruction subtracts an immediate value from a register and stores the result in a register. The LW instruction loads a word from memory into a register, and the SB instruction stores a byte from a register into memory. Lastly, the BEQ instruction checks whether the contents of two registers are equal, and if they are, it branches to a specified instruction.
+
+
+\textbf{Examples}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Instruction & Opcode & Rs & Rt & Immediate \\
+& [31:26] & [25:21] & [20:16] & [15:0] \\
+\hline
+ANDI \$t0, \$t1, 10 & 001100 & 01001 & 01000 & 0000000000001010 \\
+\hline
+SUBUI \$t0, \$t1, 5 & 011001 & 01001 & 01000 & 0000000000000101 \\
+
+\hline
+LW \$t0, 100(\$t1) & 100011 & 01001 & 01000 & 0000000001100100 \\
+\hline
+SB \$t0, 100(\$t1) & 101000 & 01001 & 01000 & 0000000001100100 \\
+\hline
+BEQ \$t0, \$t1, label & 000100 & 01001 & 01000 & label address \\
+\hline
+\end{tabular}
+ \caption{I-Type Instruction Set Examples and Fields}
+    \label{tab:tab2 I type}
+\end{center}
+\end{table}
+
+
+\subsubsection{J-Type Instructions} 
+The J-type instruction is used to change the control flow of the program by jumping to a new address specified in the instruction. The jump (J) instruction in MIPS has an opcode of 000010 and a 26-bit address field. The address field contains the memory address that the program counter will be set to after the jump instruction is executed.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Instruction & Opcode & Address \\
+ & [31:26] & [25:0] \\
+\hline
+J & 000010 & 0000 0000 0100 0000 0000 0000 10\\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+\subsection{MIPS Instruction Encoding}
+
+Every instruction is encoded in the machine language representing them as 0s and 1s. Since machines can only understand binary format, we are unable to use a high-level language, hence these instructions have to be decoded.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Name & Format & Opcode & Function Code & Encoding \\ \hline
+NOR & R & 000000 & 100111 & 000000ssssstttttddddd00000100111 \\ %correct
+SLL & R & 000000 & 000000 & 000000ssssstttttdddddhhhhh000000 \\ %correct
+XOR & R & 000000 & 100110 & 000000ssssstttttddddd00000100110 \\ %correct
+ADD & R & 000000 & 100000 & 000000ssssstttttddddd00000100000 \\ %correct
+JR & R & 000000 & 001000 & 000000sssss000000000000000001000 \\ %correct
+
+ANDI & I & 001100 & N/A & 000000ssssstttttiiiiiiiiiiiiiiii \\ % correct
+SUBUI & I & 011001 & N/A & 011001ssssstttttiiiiiiiiiiiiiiii \\ % correct
+BEQ & I & 000100 & N/A & 000100ssssstttttiiiiiiiiiiiiiiii \\ %correct
+LW & I & 100011 & N/A & 100011ssssstttttiiiiiiiiiiiiiiii \\ %correct
+SB & I & 101000 & N/A & 101000ssssstttttiiiiiiiiiiiiiiii \\ %correct
+J & J & 000010 & N/A & 000010jjjjjjjjjjjjjjjjjjjjjjjjjj \\ %correct
+
+\hline
+\end{tabular}
+\end{center}
+\section{Micro-architecture Design} \label{losota}
+The micro-architecture design of MIPS is the industry level example of a classic RISC architecture, which demonstrates faster and simpler instructions while keeping a small and uniform instruction set.
+The diagram shows the five stages of the MIPS pipeline: Instruction Fetch (IF), Instruction Decode (ID), Execution (EX), Memory Access (MEM), and Write Back (WB).
+
+\begin{longtable}{|l|l|p{11cm}|}
+\hline
+Instruction & component & Definition \\ \hline
+\multirow{6}{*}{IF}
+  & Instruction Memory& The instruction memory unit is a component of a computer processor that stores program instructions in memory and retrieves them when needed by the processor. It is responsible for fetching instructions from memory and sending them to the instruction decoder for execution. It has a fixed size, determined by the number of address lines connected to it, and can be addressed using 32-bit addresses. The size of instruction memory in our work is 128 bytes.\\ \cline{2-3} 
+ & Adder & The adder is used to calculate the address of the next instruction to be fetched. \\ \cline{2-3}
+ & MUX 1 & When the Branch signal is asserted, the multiplexer selects the branch address as the next PC value (the target address of the branch instruction), otherwise, it selects PC+4 (the next instruction addess). \\
+ \cline{2-3}
+ & MUX 2 & This multiplexer selects between two inputs: the jump address and the jump register data. The selection is made based on the control signal "jump/jr". If the signal is asserted, the multiplexer selects the jump address for the jump instruction or the jump register data for the jr instruction. If the signal is not asserted, the multiplexer selects the output of the previous multiplexer (MUX 1). \\
+ \cline{2-3}
+ & PC counter & The program counter (PC) is a register that stores the memory address of the next instruction to be fetched and executed. MUX 1 and MUX 2 are multiplexers that control the value of the PC. MUX 1 selects between the branch address or the next instruction address, while MUX 2 selects between the jump address or the jump register data. \\
+ \cline{2-3}
+  & IF/ID buffer & The IF/ID buffer is a pipeline register that holds the instruction fetched in the instruction fetch stage and passes it to the instruction decode stage. \\
+ \hline
+ \multirow{6}{*}{ID} 
+ & The Hazard unit & The hazard unit is a critical component of the instruction decode unit that is responsible for detecting and resolving any hazards that may occur during instruction execution. Hazards can occur when two or more instructions need to access the same resource or when an instruction depends on the results of a previous instruction that has not yet completed.\\
+  \cline{2-3}
+   & The control unit & The control unit generates control signals that coordinate the operation of the processor's functional units during instruction execution. These signals determine the specific operations to be performed by each unit and ensure that instructions are executed in the correct order.\\
+  \cline{2-3}
+   & The register unit & The register unit is responsible for holding the current values of the processor's general-purpose registers. These registers are used to store data during instruction execution and are an essential component of the MIPS 32-bit processor's architecture.\\
+  \cline{2-3}
+     & The sign extend unit & The sign extend unit is a functional unit that extends a 16-bit immediate value to a 32-bit value for use in arithmetic or logical operations. This unit is used to handle signed values in the instruction set.\\
+  \cline{2-3}
+     &The shift left unit & The shift left unit is a functional unit that performs a left shift operation on a binary value by two.\\
+    \cline{2-3}
+     &ID/EX buffer & The ID/EX buffer is a pipeline stage in a computer processor that stores the instruction after it has been decoded in the Instruction Decode (ID) stage and prepares it for execution in the Execute (EX) stage.\\
+  \hline
+  \multirow{7}{*}{EX} 
+ & ALU control & The ALU control unit generates control signals that determine the operation performed by the ALU.\\
+  \cline{2-3}
+   & ALU & The ALU (Arithmetic Logic Unit) performs arithmetic and logical operations on two input operands.\\
+  \cline{2-3}
+    & Forward control & The forward control unit determines whether the result of an earlier instruction needs to be forwarded to the current instruction.\\
+  \cline{2-3}
+     & Adder & The adder unit is used to perform arithmetic operations such as addition or subtraction.\\
+  \cline{2-3}
+       & MUX A & This multiplexer has 2 input sources: Read Data 2 and the sign-extended immediate value. The control signal ALUSrc determines which input is selected as the second operand for the ALU. If ALUSrc=0, Read Data 2 is selected and if ALUSrc=1, the sign-extended immediate value is selected.\\
+  \cline{2-3}
+       & MUX B & This multiplexer selects the destination register for I-type instructions. It is controlled by the RegDst signal. If RegDst is set to 1, the destination register will be the rd. Otherwise, if RegDst is set to 0, the mux selects the rt as the destination register.\\
+    \cline{2-3}
+       & EX/MEM buffer &   The EX/MEM buffer is a pipeline stage in a computer processor that stores the instruction after it has been executed in the Execute (EX) stage and prepares it for memory access in the Memory Access (MEM) stage. It holds the result of the ALU operation, the address calculation for load/store instructions, and the control signals for accessing memory.
+ \hline
+    \multirow{3}{*}{MEM}
+    & Data Memory & The Data Memory stores and retrieves data during the execution of load and store instructions. It takes two inputs, a 32-bit address and a 32-bit data value to be written to or read from the memory location addressed by the address input. The output of the Data Memory is the 32-bit value read from memory. The size of Data Memory is 4096 bytes.\\
+  \cline{2-3}
+    & Branch control unit & The Branch Control Unit is responsible for determining whether a branch should be taken or not, based on the results of the ALU operations. It receives input signals from the ALU and instruction decoding unit, and uses them to generate the branch signal.\\
+  \cline{2-3}
+      & MEM/WB buffer & The MEM/WB buffer is a pipeline register that stores data during the Memory Access (MEM) stage and forwards it to the Write Back (WB) stage.\\
+  \hline
+  WB & MUX & This multiplexer is responsible for selecting the data to be written back to the register file. It has two inputs: the result of the ALU (ALU result) and the data read from memory (Read Data). If the MemtoReg signal is asserted, the data read from memory will be written back. Otherwise, the ALU result will be written back.\\
+
+\hline
+
+\end{longtable}
+
+\section{Datapath Design} \label{significance}
+\subsection{Data-path for R-type instructions}
+
+
+\subsubsection{ADD, NOR, XOR instructions}
+The execution datapath for ADD, NOR, and XOR follows several steps. Once an instruction is fetched from the instruction memory, it proceeds to the decode stage where it is identified as an R-type instruction and the relevant control signals are asserted. The register file then receives the addresses of the source registers (rs and rt) and the destination register (rd) to provide the requested operands. In the execution stage, the opcode and function code are sent to the ALU control to identify the operation to be executed by the ALU. Once the ALU completes the operation, the result is sent to the write-back stage to be stored in the register file.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{images/ADD NOR XOR.png}
+  \caption{ADD, NOR, XOR Datapath}
+  \label{fig:example-image}
+\end{figure}
+
+\subsubsection{JR instruction}
+After the JR instruction is fetched from the instruction memory, it proceeds to the decode stage where the control unit identifies it as a JR instruction, based on the opcode, and activates the relevant control signal. The register file then receives the address of the source register rs. In the execution stage of the JR instruction, the value of the RS register is passed to the program counter (PC) to update its value.
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{images/JR datapath.png}
+  \caption{JR Datapath}
+  \label{fig:example-image}
+\end{figure}
+
+\subsection{Datapath for J-type instructions}
+Once the instruction is fetched from the instruction memory. In the decode stage the instruction type is identified by sending the opcode to the control unit. To determine the target jump address, the processor sends the appropriate part of the instruction to the shift left 2. Finally, the shifted jump target is sent to the program counter (PC). 
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{images/JUMP.png}
+  \caption{JUMP Datapath}
+  \label{fig:example-image}
+\end{figure}
+
+
+\subsection{Datapath for I-type instructions}
+The datapath for I-type instructions includes several key components, including the instruction memory, register file, ALU, and data memory. These components work together to execute I-type instructions and perform the necessary operations on the data.
+Our work involves the use of certain immediate instructions such as ANDI (logical AND immediate), SUBUI (subtract unsigned immediate), BEQ (branch on equal), LW (load word), and SB (store byte). Each of these instructions has a specific data path that we will describe in detail in the following sections.
+\subsubsection{ANDI and SUBUI instructions}
+The data paths for the ANDI (AND immediate) and SUBUI (subtract unsigned immediate) instructions have several similarities. Both involve fetching the instruction from memory, reading the source register from the register file, and fetching the immediate value from the instruction. The main difference between the two instructions is in the ALU operation. For ANDI, the ALU performs the logical AND operation between the value in the source register and the immediate value, while for SUBUI, the ALU performs an unsigned subtraction between the value in the source register and the immediate value. After the ALU operation, the result is written back to the destination register in the register file. Therefore, the data paths for ANDI and SUBUI involve the same basic steps, but with different operations performed in the ALU. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm]{images/ANDI SUBUI.png}
+    \caption{The datapath of ANDI and SUBUI instructions}
+    \label{fig:addi_subui}
+\end{figure}
+\subsubsection{SB instruction}
+The data path for the SB instruction (store byte) involves fetching the instruction from memory and reading the base address register (rs) and offset register (rt) from the register file. The ALU adds the values in the Rd1 and Rd2 registers to calculate the effective address for the store operation and places the result in the ALUout register. The CPU fetches the data to be stored from the third register (rd) in the register file and places it in the Write Data (WD) register. Finally, the CPU writes the least significant byte of the data from the WD register to the effective address in memory.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm]{images/SB.png}
+    \caption{The datapath of SB instruction}
+    \label{fig:sb}
+\end{figure}
+
+\subsubsection{LW instruction}
+The data path for the LW instruction (load word) typically involves the following components and steps: the CPU fetches the LW instruction from memory and places it in the Instruction Register (IR), reads the base address register (rs) and offset register (rt) from the register file, adds the values in the Rd1 and Rd2 registers in the ALU to calculate the effective address for the load operation, reads the 32-bit value from the effective address in memory to the Memory Data (MD) register, and writes the value from the MD register to the destination register (rt) in the register file.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm]{images/LW.png}
+    \caption{The datapath of LW instruction}
+    \label{fig:lw}
+\end{figure}
+\subsection{BEQ instruction}
+The data path for the BEQ instruction (branch on equal) involves fetching the instruction from memory, reading the contents of the two registers specified by the instruction (rs and rt) from the register file, and placing them in the Read Data 1 (Rd1) and Read Data 2 (Rd2) registers, respectively. The ALU then subtracts the value in Rd1 from the value in Rd2 to check if they are equal. If the result is zero, the branch is set. Then, the CPU calculates the address of the target instruction by adding the 16-bit offset from the instruction to the PC+4 (address of the instruction following the branch), and then updates the PC to this new address. Otherwise, the processor moves to the next instruction.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm]{images/BEQ.png}
+    \caption{The datapath of BEQ instruction}
+    \label{fig:sb}
+\end{figure}
+\section{Multicycle Operations}
+The primary reason behind our pipelined design approach is achieve an ideal CPI (Cycles per Instruction) goal of 1, therefore after a hard start of five cycles in the processor, every subsequent instruction will be computed in 1 clock cycle. To achieve this, we have to consider implementing additional hardware such as the pipeline buffers so that we have access to the unique data and signals required by the instruction in different stages starting from the Fetch stage until the Write back stage. 
+
+\subsection{Control Signals}
+We require control signals in each stages of the pipeline to control components according to the instruction of that particular stage. To streamline this process, we utilise the pipeline buffers that forward the relevant signals that is unique to the instruction in that stage, in doing so we are ideally separating the stages of the pipeline to operate different instructions in parallel and perform correct computation as designed.
+
+
+\subsection{Hazards}
+Having said that, this implementation should be ideal for most of the instructions to compute in parallel considering that they all have no dependencies in the next four instructions of the program and the operand values are already loaded in the register memory. In a real world scenario, this is highly unlikely and the successive instructions are prone to dependencies that may cause hazards such as structural hazards, load hazards and data hazards. Therefore, it is important that we recognise these hazards during the design of a multi-cycle processor to obtain the best performance and less prone to failure. To address these hazards in our implementation, we have introduced additional components such as the Hazard Control Unit, Write back Forward Control Unit, and the Forward Control Unit along with operand registers in different stages as required.
+
+\subsubsection{Structural Hazards}
+Structural hazards are hazards that occur due the access of hardware resources at the same time by two different instructions, to overcome this hazard normally we would induce a stall in the pipeline to wait for the hardware resource to be available to ensure correct operation for the next instructions in sequence. Also, if an instruction has a dependency of a value that is yet to be written back, then we might perform an incorrect computation for that instruction with an older value, resulting in wastage of hardware resources. Hence, it is essential that we design the processor that overcome these hazards.
+
+\section{Conclusion}
+
+
+\bibliography{Library_for_Automatic_References.bib} 
+
+[1] Sofiene Tahar, COEN 6741 - Computer Architecture and Design, eConcordia, 2023
+
+[2] John L. Hennessy, David A. Patterson, Computer Architecture - A Quantitative Approach, 6th Edition, 2019
+
+[3] Robert L. Britton, MIPS Assembly Language Programming, 2004
+
+[4] GitHub Project Repository, https://github.com/sundarrajnithish/mini-MIPS, 2023
+
+[5] 
+
+\bibliographystyle{apalike}
+\end{document}
