@@ -23,15 +23,21 @@ end program_counter;
 
 architecture behavioral of program_counter is
 
-	signal temp_address: std_logic_vector(31 downto 0):= (others => '0');
+        signal temp_address: std_logic_vector(31 downto 0) := (others => '0');
 
         begin
-		process (clk, address_in, current_address, next_address)
+        --next_address <= (others => '0');
+		process (clk, address_in)
 		begin
             if rising_edge(clk) then
-                temp_address <= address_in;
-                current_address <= temp_address;
-                next_address <= temp_address + 4;
+                case address_in is
+                    when "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" | "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" => 
+                    current_address <= temp_address;
+                    next_address <= temp_address + 4;
+                when others =>
+                    current_address <= address_in;
+                    next_address <= address_in + 4;
+                end case;
             end if;
 
 		end process;
