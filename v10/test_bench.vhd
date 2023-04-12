@@ -125,9 +125,46 @@ architecture behavioral of main_test_bench is
     signal id_ex_alu_src : std_logic := '0';
     signal id_ex_alu_op : std_logic_vector (2 downto 0) := (others => '0');
 
+    --signals for rd2_se32_mux
+    signal rd2_se32_mux_select : std_logic := '0';
+    signal rd2_se32_mux_out : std_logic_vector(31 downto 0):= (others => '0');
+
+    --signals for rt_rd_mux
+    signal rt_rd_mux_select : std_logic := '0';
+    signal rt_rd_mux_out : std_logic_vector(4 downto 0):= (others => '0');
+
+    --signals for alu
+    signal alu_result : std_logic_vector(31 downto 0):= (others => '0');
+    signal alu_zero : std_logic := '0';
+
     --signals for forwarding unit
     signal forward_data_1 : std_logic_vector(31 downto 0):= (others => '0');
     signal forward_data_2 : std_logic_vector(31 downto 0):= (others => '0');
+    signal forward_data_3 : std_logic_vector(31 downto 0):= (others => '0');
+    signal forward_data_4 : std_logic_vector(31 downto 0):= (others => '0');
+
+    signal forward_signal_1 : std_logic := '0';
+    signal forward_signal_2 : std_logic := '0';
+    signal forward_signal_3 : std_logic := '0';
+    signal forward_signal_4 : std_logic := '0';
+
+    --signals for ex_mem_buffer
+    signal ex_mem_flush : std_logic := '0';
+    signal ex_mem_alu_result : std_logic_vector(31 downto 0):= (others => '0');
+    signal ex_mem_rd : std_logic_vector(4 downto 0):= (others => '0');
+
+    signal ex_mem_mem_to_reg : std_logic := '0';
+    signal ex_mem_reg_write : std_logic := '0';
+    signal ex_mem_mem_read : std_logic := '0';
+    signal ex_mem_mem_write : std_logic := '0';
+    signal ex_mem_alu_zero : std_logic := '0';
+    signal ex_mem_branch : std_logic := '0';
+    signal fwd_alu_result_ex_mem : std_logic_vector(31 downto 0):= (others => '0');
+    signal fwd_rd_ex_mem : std_logic_vector(4 downto 0):= (others => '0');
+
+    --signals for branch_and_gate
+    signal branch_and_gate_out : std_logic := '0';
+
 
 begin 
 
@@ -157,10 +194,10 @@ begin
         port map(clk => en, reg_write => mem_wb_reg_write, read_register_1 => if_id_rs, read_register_2 => if_id_rt, write_register => mem_wb_rd, write_data => wb_data, read_data_1 => register_data_1, read_data_2 => register_data_2);
 
     rdf3_mux_e: entity work.rdf3_mux_e
-        port map(rd1 =>register_data_1, fd1 => forward_data_1, rdf1_mux_e_sel => rdf3_mux_select, rdf1_mux_e_out => rdf3_mux_e_out);
+        port map(rd1 =>register_data_1, fd3 => forward_data_3, rdf3_mux_e_sel => forward_signal_3, rdf3_mux_e_out => rdf3_mux_e_out);
     
     rdf4_mux_f: entity work.rdf4_mux_f
-        port map(rd1 =>register_data_2, fd1 => forward_data_2, rdf1_mux_e_sel => rdf4_mux_select, rdf1_mux_e_out => rdf4_mux_f_out);
+        port map(rd2 =>register_data_2, fd4 => forward_data_4, rdf4_mux_f_sel => forward_signal_4, rdf4_mux_f_out => rdf4_mux_f_out);
 
     control_unit: entity work.control_unit
         port map(clk => en, flush => cu_flush ,opcode => if_id_opcode, funct => if_id_funct, alu_src => cu_alu_src, reg_dst => cu_reg_dst, branch => cu_branch, mem_read => cu_mem_read, mem_write => cu_mem_write, mem_to_reg => cu_mem_to_reg, reg_write => cu_reg_write, jump_jr => cu_jump_jr, alu_op => cu_alu_op);
@@ -191,8 +228,8 @@ begin
 
         opcode_in => if_id_opcode,
 
-        read_data1_in => register_data_1,
-        read_data2_in => register_data_2,
+        read_data1_in => rdf3_mux_e_out,
+        read_data2_in => rdf4_mux_f_out,
 
         shamt_in => if_id_shamt,
         immediate_32_in => sign_extend_output,
@@ -223,8 +260,48 @@ begin
         alu_op_out => id_ex_alu_op
         );
 
+    --Execute Stage
+    rd2_se32_mux: entity work.rd2_se32_mux
+        port map(rd2 => id_ex_read_data2, se32 => id_ex_immediate_32, rd2_se32_mux_sel => id_ex_alu_src, rd2_se32_mux_out => rd2_se32_mux_out);
 
-    process
+    rt_rd_mux: entity work.rt_rd_mux
+        port map(rt => id_ex_rt, rd => id_ex_rd, rt_rd_mux_sel => id_ex_reg_dst, rt_rd_mux_out => rt_rd_mux_out);
+
+    rdf1_mux_c: entity work.rdf1_mux_c
+        port map(rd1 => id_ex_read_data1, fd1 => forward_data_1, rdf1_mux_c_sel => forward_signal_1, rdf1_mux_c_out => rdf1_mux_c_out);
+
+    rdf2_mux_d: entity work.rdf2_mux_d
+        port map(rd2 => rd2_se32_mux_out, fd2 => forward_data_2, rdf2_mux_d_sel => forward_signal_2, rdf2_mux_d_out => rdf2_mux_d_out);
+
+    alu: entity work.alu
+        port map(clk => en, aluop => id_ex_alu_op, shamt => id_ex_shamt, input_a => rdf1_mux_c_out, input_b => rdf2_mux_d_out, alu_result => alu_result, zero => alu_zero);
+    
+    ex_mem_buffer: entity work.ex_mem_buffer
+        port map(clk => en, reset => ex_mem_flush, reg_write => id_ex_reg_write, mem_to_reg => id_ex_mem_to_reg, branch => id_ex_branch, mem_read => id_ex_mem_read, mem_write => id_ex_mem_write, alu_result => ex_mem_alu_result, rd => id_ex_rd, reg_write_out => ex_mem_reg_write, mem_to_reg_out => ex_mem_mem_to_reg, branch_out => ex_mem_branch, mem_read_out => ex_mem_mem_read, mem_write_out => ex_mem_mem_write, alu_result_out => ex_mem_alu_result, rd_out => ex_mem_rd, rd_ex_mem => fwd_rd_ex_mem, alu_result_ex_mem => fwd_alu_result_ex_mem);
+    
+    --forward control
+    
+    -- Memory Stage
+    branch_and_gate: entity work.branch_and_gate
+        port map(branch => ex_mem_branch, zero => alu_zero, branch_and_gate_out => branch_and_gate_out);
+
+    data_memory: entity work.data_memory
+        port map(clk => en, address => ex_mem_alu_result, write_data => ex_mem_read_data2, mem_read => ex_mem_mem_read, mem_write => ex_mem_mem_write, read_data => data_memory_read_data);
+    
+    mem_wb_buffer: entity work.mem_wb_buffer
+        port map(clk => en, reset => mem_wb_flush, reg_write => id_ex_reg_write, mem_to_reg => id_ex_mem_to_reg, alu_result => alu_result, rd => id_ex_rd, reg_write_out => mem_wb_reg_write, mem_to_reg_out => mem_wb_mem_to_reg, alu_result_out => mem_wb_alu_result, rd_out => mem_wb_rd, rd_mem_wb => fwd_rd_mem_wb, alu_result_mem_wb => fwd_alu_result_mem_wb);
+
+    --Write Back Stage
+    wb_mux: entity work.wb_mux
+        port map(read_data => mem_wb_read_data, alu_result => mem_wb_alu_result, wb_mux_sel => mem_wb_mem_to_reg, wb_mux_out => wb_mux_out);
+
+    wb
+        --mem_wb_buffer: entity work.mem_wb_buffer
+        --port map(clk => en, reset => mem_wb_flush, reg_write => id_ex_reg_write, mem_to_reg => id_ex_mem_to_reg, alu_result => alu_result, rd => id_ex_rd, reg_write_out => mem_wb_reg_write, mem_to_reg_out => mem_wb_mem_to_reg, alu_result_out => mem_wb_alu_result, rd_out => mem_wb_rd, rd_mem_wb => fwd_rd_mem_wb, alu_result_mem_wb => fwd_alu_result_mem_wb);
+    
+        
+        
+        process
         begin   
         for i in 0 to 20 loop
             en <= '0';
