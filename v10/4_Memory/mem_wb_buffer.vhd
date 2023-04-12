@@ -78,3 +78,4 @@ architecture behavioral of mem_wb_buffer is
         end if;
     end if;
     end process;
+        end behavioral;
