@@ -90,7 +90,32 @@ begin
     
         process(clk, flush)
         begin
-            if falling_edge(clk) then
+            if rising_edge(clk) then
+            
+                reg_write <= reg_write_in;
+                mem_to_reg <= mem_to_reg_in;
+                branch <= branch_in;
+                mem_read <= mem_read_in;
+                mem_write <= mem_write_in;
+                reg_dst <= reg_dst_in;
+                alu_src <= alu_src_in;
+    
+                opcode <= opcode_in;
+                funct <= funct_in;
+    
+                read_data1 <= read_data1_in;
+                read_data2 <= read_data2_in;
+    
+                shamt <= shamt_in;
+                immediate_32 <= immediate_32_in;
+    
+                rs <= rs_in;
+                rt <= rt_in;
+                rd <= rd_in;
+            end if;
+        
+        
+        if falling_edge(clk) then
             if(flush = '1') then
                 reg_write <= '0';
                 mem_to_reg <= '0';
@@ -113,30 +138,6 @@ begin
                 rt <= (others => '0');
                 rd <= (others => '0');
             else
-                reg_write <= reg_write_in;
-                mem_to_reg <= mem_to_reg_in;
-                branch <= branch_in;
-                mem_read <= mem_read_in;
-                mem_write <= mem_write_in;
-                reg_dst <= reg_dst_in;
-                alu_src <= alu_src_in;
-    
-                opcode <= opcode_in;
-                funct <= funct_in;
-    
-                read_data1 <= read_data1_in;
-                read_data2 <= read_data2_in;
-    
-                shamt <= shamt_in;
-                immediate_32 <= immediate_32_in;
-    
-                rs <= rs_in;
-                rt <= rt_in;
-                rd <= rd_in;
-            end if;
-            end if;
-        end process;
-    
         reg_write_out <= reg_write;
         mem_to_reg_out <= mem_to_reg;
         branch_out <= branch;
@@ -158,6 +159,9 @@ begin
         rs_out <= rs;
         rt_out <= rt;
         rd_out <= rd;
+        end if;
+        end if;
+        end process;
     
     end behavioral;
 

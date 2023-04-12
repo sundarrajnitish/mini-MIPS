@@ -50,6 +50,7 @@ architecture behavioral of main_test_bench is
 
     --signals for if_id_buffer
     signal if_id_flush : std_logic := '0';
+    signal if_id_pc : std_logic_vector(31 downto 0) := (others => '0');
     signal if_id_pc_4 : std_logic_vector(31 downto 0):= (others => '0');
     signal if_id_concat : std_logic_vector(3 downto 0):= (others => '0');
     signal if_id_opcode : std_logic_vector(5 downto 0):= (others => '0');
@@ -69,13 +70,13 @@ architecture behavioral of main_test_bench is
     signal register_data_2 : std_logic_vector(31 downto 0):= (others => '0');
 
     --signals for hazard_control
+    signal and_branch : std_logic := '0';
     signal id_ex_flush : std_logic := '0';
-    signal hazard_pc : std_logic_vector(31 downto 0) := (others => '0');
-    signal ex_mem_branch : std_logic := '0';
     signal ex_mem_rd : std_logic_vector(4 downto 0):= (others => '0');
     signal mem_ex_memread : std_logic := '0';
-    signal jump_mux_signal : std_logic_vector(1 downto 0) := (others => '0');
-    signal control_flush : std_logic := '0';
+
+    signal hdu_load_address : std_logic_vector(31 downto 0):= (others => '0');
+
 
     --signals for control_unit
     signal cu_flush : std_logic := '0';
@@ -133,10 +134,10 @@ begin
         port map(clk => en, address_in => jump_mux_out, current_address => pc_out, next_address => pc_address);
 
     im: entity work.instruction_memory
-        port map(clk => en, read_address => pc_address, instruction => im_out);
+        port map(clk => en, read_address => pc_out, instruction => im_out);
 
     if_id_buffer: entity work.if_id_buffer
-        port map(clk => en, flush => if_id_flush, instruction => im_out, next_address => pc_address, pc_4 => if_id_pc_4, pc_concat => if_id_concat, opcode => if_id_opcode, funct => if_id_funct, rs => if_id_rs, rt => if_id_rt, rd => if_id_rd, shamt => if_id_shamt, immediate => if_id_immediate, jump_address => if_id_jump_address);
+        port map(clk => en, flush => if_id_flush, instruction => im_out, next_address => pc_address, pc => pc_out, pc_4 => if_id_pc_4, pc_concat => if_id_concat, opcode => if_id_opcode, funct => if_id_funct, rs => if_id_rs, rt => if_id_rt, rd => if_id_rd, shamt => if_id_shamt, immediate => if_id_immediate, jump_address => if_id_jump_address, pc_out => if_id_pc);
 
     --Decode Stage
 
@@ -146,7 +147,8 @@ begin
     control_unit: entity work.control_unit
         port map(clk => en, flush => cu_flush ,opcode => if_id_opcode, funct => if_id_funct, alu_src => cu_alu_src, reg_dst => cu_reg_dst, branch => cu_branch, mem_read => cu_mem_read, mem_write => cu_mem_write, mem_to_reg => cu_mem_to_reg, reg_write => cu_reg_write, jump_jr => cu_jump_jr, alu_op => cu_alu_op);
 
-    --hazard_detection
+    hdu: entity work.hazard_control_unit
+        port map(clk => en, pc => if_id_pc, and_branch => and_branch, jump_jr => cu_jump_jr, if_id_rs => if_id_rs, if_id_rt => if_id_rt, id_ex_opcode => id_ex_opcode, id_ex_rt => id_ex_rt, control_flush => cu_flush, id_ex_flush => id_ex_flush, if_id_flush => if_id_flush, branch_mux_signal => b_mux_select, jump_mux_signal => j_mux_select, load_address => hdu_load_address);
 
     se: entity work.sign_extend
         port map(input_data => if_id_immediate, sign_extended_data => sign_extend_output);

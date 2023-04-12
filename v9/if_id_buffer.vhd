@@ -14,9 +14,11 @@ entity if_id_buffer is
     port ( 
         clk : in std_logic;
         flush : in std_logic;
+        pc : in std_logic_vector(31 downto 0);
         instruction : in std_logic_vector(31 downto 0);
         next_address : in std_logic_vector(31 downto 0);
-
+        
+        pc_out : out std_logic_vector(31 downto 0);
         pc_4 : out std_logic_vector(31 downto 0);
         pc_concat : out std_logic_vector(3 downto 0);
         opcode : out std_logic_vector(5 downto 0);
@@ -31,6 +33,7 @@ entity if_id_buffer is
 end if_id_buffer;
 
 architecture behavioral of if_id_buffer is
+    
 begin
     process(clk, flush, instruction, next_address)
     begin
@@ -46,6 +49,7 @@ begin
             shamt <= (others => '0');
             immediate <= (others => '0');
             jump_address <= (others => '0');
+            pc_out <= (others => '0');
             report "IF/ID Buffer Flushed";
         else
             pc_4 <= next_address;
@@ -58,6 +62,7 @@ begin
             shamt <= instruction(10 downto 6);
             immediate <= instruction(15 downto 0);
             jump_address <= instruction(25 downto 0);
+            pc_out <= pc;
             report "IF/ID Buffer Updated";
         end if;
     end if;
