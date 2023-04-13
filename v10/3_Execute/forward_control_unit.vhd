@@ -50,9 +50,11 @@ end forward_control_unit;
 architecture behavioral of forward_control_unit is
 
     begin 
+    process (clk, rd_ex_mem, rd_mem_wb, alu_result_ex_mem, alu_result_mem_wb, read_data_mem_wb, mem_to_reg_mem_wb, rs_if_id, rt_if_id, rs_id_ex, rt_id_ex)
     --if rising_edge(clk) then
         --Decode Stage Forwarding
         --Rs
+        begin
         if (rs_if_id = rd_ex_mem) then
             forward_signal_rs_if_id <= '1';
             forward_data_rs_if_id <= alu_result_ex_mem;
@@ -113,6 +115,7 @@ architecture behavioral of forward_control_unit is
             forward_signal_rt_id_ex <= '0';
             forward_data_rt_id_ex <= (others => '0');
         end if;
+        end process;
     --end if;
 end behavioral;
 

@@ -1,0 +1,97 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/sunda/Desktop/GitHub/mini-MIPS/v10
+Ealu
+Z0 w1681003287
+Z1 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 0
+Z4 dC:/Users/sunda/Desktop/GitHub/mini-MIPS/temp
+Z5 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/alu.vhd
+Z6 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/alu.vhd
+l0
+Z7 L13 1
+V]TS[YfdM`D1VWCbJ1Zdo:3
+!s100 4eQzZMS70P@_WV:P5X7C63
+Z8 OV;C;2020.1;71
+32
+Z9 !s110 1681338982
+!i10b 1
+Z10 !s108 1681338981.000000
+Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/alu.vhd|
+Z12 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/alu.vhd|
+!i113 1
+Z13 o-work work -2002 -explicit
+Z14 tExplicit 1 CvgOpt 0
+Abehavioral
+R1
+R2
+R3
+DEx4 work 3 alu 0 22 ]TS[YfdM`D1VWCbJ1Zdo:3
+!i122 0
+l30
+L26 27
+VzS:3SWO7KUAbQ9a8NMPIm1
+!s100 _VW?[HKM<]BaVzjI2F4d@0
+R8
+32
+R9
+!i10b 1
+R10
+R11
+R12
+!i113 1
+R13
+R14
+Eforward_control_unit
+Z15 w1681339437
+R1
+R2
+R3
+!i122 7
+R4
+Z16 8C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/forward_control_unit.vhd
+Z17 FC:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/forward_control_unit.vhd
+l0
+R7
+VU5bGVbg<dUU4z9UJl?^B[2
+!s100 Z`gL5FmTKkejLdX]bD?z;1
+R8
+32
+Z18 !s110 1681339442
+!i10b 1
+Z19 !s108 1681339442.000000
+Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/forward_control_unit.vhd|
+!s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/forward_control_unit.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R1
+R2
+R3
+DEx4 work 20 forward_control_unit 0 22 U5bGVbg<dUU4z9UJl?^B[2
+!i122 7
+l52
+L50 71
+VP^5l2iJRS=T5fK2m][Tb:0
+!s100 M56czDZ90dGI0m4^VzN<30
+R8
+32
+R18
+!i10b 1
+R19
+R20
+Z21 !s107 C:/Users/sunda/Desktop/GitHub/mini-MIPS/v10/3_Execute/forward_control_unit.vhd|
+!i113 1
+R13
+R14
