@@ -29,7 +29,14 @@ process(clk, mem_wb_rd, wb_data)
 begin
     if rising_edge(clk) then
         mem_wb_reg_rd <= mem_wb_rd;
+    case wb_data is
+    when "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" =>
+        mem_wb_reg_data <= "00000000000000000000000000000000";
+    when "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" =>
+        mem_wb_reg_data <= "00000000000000000000000000000000";
+    when others =>
         mem_wb_reg_data <= wb_data;
+    end case;
     end if;
 end process;
 end architecture behavioral;

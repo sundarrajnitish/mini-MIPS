@@ -33,12 +33,18 @@ architecture behavioral of alu is
         if rising_edge(clk) then
         case aluop is
             when "011" => temp_alu_result <= input_a nor input_b;
-            when "100" => temp_alu_result <= std_logic_vector(shift_left(unsigned(input_a), to_integer(unsigned(shamt))));
+            when "100" => temp_alu_result <= std_logic_vector(shift_left(unsigned(input_b), to_integer(unsigned(shamt))));
             when "010" => temp_alu_result <= input_a xor input_b;
             when "000" => temp_alu_result <= std_logic_vector(unsigned(input_a) + unsigned(input_b));
 
             when "001" => temp_alu_result <= input_a and input_b;
             when "110" => temp_alu_result <= std_logic_vector(unsigned(input_a) - to_integer(unsigned(input_b)));
+            when others =>
+                temp_alu_result <= (others => '0');
+        end case;
+        case temp_alu_result is
+            when "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" | "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" =>
+                alu_result <= "00000000000000000000000000000000";
             when others =>
                 null;
         end case;

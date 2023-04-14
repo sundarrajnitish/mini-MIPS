@@ -25,6 +25,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Compiling entity alu
 -- Compiling architecture behavioral of alu
 
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/id_ex_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/id_ex_buffer.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity id_ex_buffer
+-- Compiling architecture behavioral of id_ex_buffer
+
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/branch_mux.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/branch_mux.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
@@ -34,14 +43,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Compiling entity branch_mux
 -- Compiling architecture behavioral of branch_mux
 
-} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_buffer.vhd
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/branch_address_calc.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/branch_address_calc.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Compiling entity wb_buffer
--- Compiling architecture behavioral of wb_buffer
+-- Compiling entity branch_address_calc
+-- Compiling architecture behavioral of branch_address_calc
 
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_mux.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_mux.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
@@ -114,6 +123,44 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Loading package NUMERIC_STD
 -- Compiling entity jump_mux
 -- Compiling architecture behavioral of jump_mux
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/test_bench.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/test_bench.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity main_test_bench
+-- Compiling architecture behavioral of main_test_bench
+-- Loading entity address_buffer
+-- Loading entity branch_mux
+-- Loading entity jump_mux
+-- Loading entity program_counter
+-- Loading entity instruction_memory
+-- Loading entity if_id_buffer
+-- Loading entity register_memory
+-- Loading entity rdf3_mux_e
+-- Loading entity rdf4_mux_f
+-- Loading entity control_unit
+-- Loading entity hazard_control_unit
+-- Loading entity sign_extend
+-- Loading entity jump_address_calc
+-- Loading entity id_ex_buffer
+-- Loading entity branch_address_calc
+-- Loading entity rd2_se32_mux
+-- Loading entity rt_rd_mux
+-- Loading entity rdf1_mux_c
+-- Loading entity rdf2_mux_d
+-- Loading entity alu
+-- Loading entity ex_mem_buffer
+-- Loading entity forward_control_unit
+-- Loading entity branch_and_gate
+-- Loading entity data_memory
+-- Loading entity mem_wb_buffer
+-- Loading entity wb_mux
+-- Loading entity wb_buffer
 
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/jump_address_calc.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/jump_address_calc.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
