@@ -260,6 +260,7 @@ begin
         alu_op_out => id_ex_alu_op
         );
 
+
     --Execute Stage
     --rd2_se32_mux: entity work.rd2_se32_mux
         --port map(rd2 => id_ex_read_data2, se32 => id_ex_immediate_32, rd2_se32_mux_sel => id_ex_alu_src, rd2_se32_mux_out => rd2_se32_mux_out);

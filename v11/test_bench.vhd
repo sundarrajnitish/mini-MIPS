@@ -193,72 +193,25 @@ begin
     register_file: entity work.register_memory
         port map(clk => en, reg_write => mem_wb_reg_write, read_register_1 => if_id_rs, read_register_2 => if_id_rt, write_register => mem_wb_rd, write_data => wb_data, read_data_1 => register_data_1, read_data_2 => register_data_2);
 
-    rdf3_mux_e: entity work.rdf3_mux_e
-        port map(rd1 =>register_data_1, fd3 => forward_data_3, rdf3_mux_e_sel => forward_signal_3, rdf3_mux_e_out => rdf3_mux_e_out);
+    --rdf3_mux_e: entity work.rdf3_mux_e
+        --port map(rd1 =>register_data_1, fd3 => forward_data_3, rdf3_mux_e_sel => forward_signal_3, rdf3_mux_e_out => rdf3_mux_e_out);
     
-    rdf4_mux_f: entity work.rdf4_mux_f
-        port map(rd2 =>register_data_2, fd4 => forward_data_4, rdf4_mux_f_sel => forward_signal_4, rdf4_mux_f_out => rdf4_mux_f_out);
+    --rdf4_mux_f: entity work.rdf4_mux_f
+        --port map(rd2 =>register_data_2, fd4 => forward_data_4, rdf4_mux_f_sel => forward_signal_4, rdf4_mux_f_out => rdf4_mux_f_out);
 
-    control_unit: entity work.control_unit
-        port map(clk => en, flush => cu_flush ,opcode => if_id_opcode, funct => if_id_funct, alu_src => cu_alu_src, reg_dst => cu_reg_dst, branch => cu_branch, mem_read => cu_mem_read, mem_write => cu_mem_write, mem_to_reg => cu_mem_to_reg, reg_write => cu_reg_write, jump_jr => cu_jump_jr, alu_op => cu_alu_op);
+    --control_unit: entity work.control_unit
+        --port map(clk => en, flush => cu_flush ,opcode => if_id_opcode, funct => if_id_funct, alu_src => cu_alu_src, reg_dst => cu_reg_dst, branch => cu_branch, mem_read => cu_mem_read, mem_write => cu_mem_write, mem_to_reg => cu_mem_to_reg, reg_write => cu_reg_write, jump_jr => cu_jump_jr, alu_op => cu_alu_op);
 
-    hdu: entity work.hazard_control_unit
-        port map(clk => en, pc => if_id_pc, and_branch => and_branch, jump_jr => cu_jump_jr, if_id_rs => if_id_rs, if_id_rt => if_id_rt, id_ex_opcode => id_ex_opcode, id_ex_rt => id_ex_rt, control_flush => cu_flush, id_ex_flush => id_ex_flush, if_id_flush => if_id_flush, branch_mux_signal => b_mux_select, jump_mux_signal => j_mux_select, load_address => hdu_load_address);
+    --hdu: entity work.hazard_control_unit
+        --port map(clk => en, pc => if_id_pc, and_branch => and_branch, jump_jr => cu_jump_jr, if_id_rs => if_id_rs, if_id_rt => if_id_rt, id_ex_opcode => id_ex_opcode, id_ex_rt => id_ex_rt, control_flush => cu_flush, id_ex_flush => id_ex_flush, if_id_flush => if_id_flush, branch_mux_signal => b_mux_select, jump_mux_signal => j_mux_select, load_address => hdu_load_address);
 
-    se: entity work.sign_extend
-        port map(input_data => if_id_immediate, sign_extended_data => sign_extend_output);
+    --se: entity work.sign_extend
+        --port map(input_data => if_id_immediate, sign_extended_data => sign_extend_output);
 
-    j_addr_calc: entity work.jump_address_calc
-    port map(input_address => if_id_jump_address, pc_concat => if_id_concat, jump_address => jump_address_calculator_output);
+    --j_addr_calc: entity work.jump_address_calc
+    --port map(input_address => if_id_jump_address, pc_concat => if_id_concat, jump_address => jump_address_calculator_output);
 
-    id_ex_buffer: entity work.id_ex_buffer
-        port map(
-        clk => en, 
-        flush => id_ex_flush, 
-        next_address => if_id_pc_4,
-
-        reg_write_in => cu_reg_write,
-        mem_to_reg_in => cu_mem_to_reg,
-        branch_in => cu_branch,
-        mem_read_in => cu_mem_read,
-        mem_write_in => cu_mem_write,
-        reg_dst_in => cu_reg_dst,
-        alu_src_in => cu_alu_src,
-        alu_op_in => cu_alu_op,
-
-        opcode_in => if_id_opcode,
-
-        read_data1_in => rdf3_mux_e_out,
-        read_data2_in => rdf4_mux_f_out,
-
-        shamt_in => if_id_shamt,
-        immediate_32_in => sign_extend_output,
-
-        rs_in => if_id_rs,
-        rt_in => if_id_rt,
-        rd_in => if_id_rd,
-
-        opcode_out => id_ex_opcode,
-
-        read_data1_out => id_ex_read_data1,
-        read_data2_out => id_ex_read_data2,
-
-        shamt_out => id_ex_shamt,
-        immediate_32_out => id_ex_immediate_32,
-
-        rs_out => id_ex_rs,
-        rt_out => id_ex_rt,
-        rd_out => id_ex_rd,
-
-        reg_write_out => id_ex_reg_write,
-        mem_to_reg_out => id_ex_mem_to_reg,
-        branch_out => id_ex_branch,
-        mem_read_out => id_ex_mem_read,
-        mem_write_out => id_ex_mem_write,
-        reg_dst_out => id_ex_reg_dst,
-        alu_src_out => id_ex_alu_src,
-        alu_op_out => id_ex_alu_op
-        );
+    
 
     --Execute Stage
     --rd2_se32_mux: entity work.rd2_se32_mux
