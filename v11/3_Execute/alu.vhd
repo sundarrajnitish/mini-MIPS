@@ -30,6 +30,7 @@ architecture behavioral of alu is
     begin 
     process (clk, aluop, input_a, input_b, shamt)
     begin
+
         if rising_edge(clk) then
         case aluop is
             when "011" => temp_alu_result <= input_a nor input_b;
@@ -46,7 +47,7 @@ architecture behavioral of alu is
             when "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" | "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" =>
                 alu_result <= "00000000000000000000000000000000";
             when others =>
-                null;
+                alu_result <= temp_alu_result;
         end case;
         alu_result <= temp_alu_result;
         case temp_alu_result is
