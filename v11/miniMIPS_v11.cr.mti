@@ -1,4 +1,13 @@
-C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/hazard_control_unit.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/hazard_control_unit.vhd
+C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/4_Memory/data_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/4_Memory/data_memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity data_memory
+-- Compiling architecture behavioral of data_memory
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/hazard_control_unit.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/hazard_control_unit.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -7,14 +16,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Compiling entity hazard_control_unit
 -- Compiling architecture behavioral of hazard_control_unit
 
-} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/id_ex_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/id_ex_buffer.vhd
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/alu.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/alu.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Compiling entity id_ex_buffer
--- Compiling architecture behavioral of id_ex_buffer
+-- Compiling entity alu
+-- Compiling architecture behavioral of alu
 
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/branch_mux.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/branch_mux.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
@@ -24,6 +33,51 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Loading package NUMERIC_STD
 -- Compiling entity branch_mux
 -- Compiling architecture behavioral of branch_mux
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_buffer.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity wb_buffer
+-- Compiling architecture behavioral of wb_buffer
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_mux.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/5_WriteBack/wb_mux.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity wb_mux
+-- Compiling architecture behavioral of wb_mux
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/4_Memory/mem_wb_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/4_Memory/mem_wb_buffer.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity mem_wb_buffer
+-- Compiling architecture behavioral of mem_wb_buffer
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/instruction_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/instruction_memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity instruction_memory
+-- Compiling architecture behavioral of instruction_memory
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rdf1_mux_c.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rdf1_mux_c.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity rdf1_mux_c
+-- Compiling architecture behavioral of rdf1_mux_c
 
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/sign_extend.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/sign_extend.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
@@ -43,6 +97,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Compiling entity if_id_buffer
 -- Compiling architecture behavioral of if_id_buffer
 
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rdf2_mux_d.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rdf2_mux_d.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity rdf2_mux_d
+-- Compiling architecture behavioral of rdf2_mux_d
+
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/jump_mux.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/jump_mux.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
@@ -52,24 +115,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Compiling entity jump_mux
 -- Compiling architecture behavioral of jump_mux
 
-} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/test_bench.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/test_bench.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package std_logic_arith
--- Loading package STD_LOGIC_UNSIGNED
--- Compiling entity main_test_bench
--- Compiling architecture behavioral of main_test_bench
--- Loading entity address_buffer
--- Loading entity branch_mux
--- Loading entity jump_mux
--- Loading entity program_counter
--- Loading entity instruction_memory
--- Loading entity if_id_buffer
--- Loading entity register_memory
-
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/jump_address_calc.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/jump_address_calc.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
@@ -78,6 +123,33 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Loading package NUMERIC_STD
 -- Compiling entity jump_address_calc
 -- Compiling architecture behavioral of jump_address_calc
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/ex_mem_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/ex_mem_buffer.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity ex_mem_buffer
+-- Compiling architecture behavioral of ex_mem_buffer
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rt_rd_mux_a.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rt_rd_mux_a.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity rt_rd_mux
+-- Compiling architecture behavioral of rt_rd_mux
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/forward_control_unit.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/forward_control_unit.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity forward_control_unit
+-- Compiling architecture behavioral of forward_control_unit
 
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/address_buffer.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/1_Fetch/address_buffer.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
@@ -116,6 +188,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Compiling entity register_memory
 -- Compiling architecture behavioral of register_memory
 
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rd2_se32_mux_b.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/3_Execute/rd2_se32_mux_b.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity rd2_se32_mux
+-- Compiling architecture behavioral of rd2_se32_mux
+
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/rdf4_mux_f.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/rdf4_mux_f.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
 -- Loading package STANDARD
@@ -124,6 +205,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Loading package NUMERIC_STD
 -- Compiling entity rdf4_mux_f
 -- Compiling architecture behavioral of rdf4_mux_f
+
+} {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/4_Memory/branch_and_gate.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/4_Memory/branch_and_gate.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity branch_and_gate
+-- Compiling architecture behavioral of branch_and_gate
 
 } {} {}} C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/control_unit.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/sunda/Desktop/GitHub/mini-MIPS/v11/2_Decode/control_unit.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020

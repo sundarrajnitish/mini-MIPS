@@ -56,7 +56,9 @@ entity id_ex_buffer is
         mem_write_out : out std_logic;
         reg_dst_out : out std_logic;
         alu_src_out : out std_logic;
-        alu_op_out : out std_logic_vector(2 downto 0)
+        alu_op_out : out std_logic_vector(2 downto 0);
+
+        next_address_out : out std_logic_vector(31 downto 0)
     );
 
 end id_ex_buffer;
@@ -83,6 +85,8 @@ architecture behavioral of id_ex_buffer is
     signal rt : std_logic_vector(4 downto 0) := (others => '0');
     signal rd : std_logic_vector(4 downto 0) := (others => '0');
 
+    signal next_address_reg : std_logic_vector(31 downto 0) := (others => '0');
+
 begin
     
         process(clk, flush)
@@ -108,6 +112,7 @@ begin
                 rs <= rs_in;
                 rt <= rt_in;
                 rd <= rd_in;
+                next_address_reg <= next_address;
             end if;
         
         
@@ -132,6 +137,7 @@ begin
                 rs <= (others => '0');
                 rt <= (others => '0');
                 rd <= (others => '0');
+                next_address_out <= (others => '0');
             else
         reg_write_out <= reg_write;
         mem_to_reg_out <= mem_to_reg;
@@ -149,6 +155,7 @@ begin
     
         shamt_out <= shamt;
         immediate_32_out <= immediate_32;
+        next_address_out <= next_address_reg;
     
         rs_out <= rs;
         rt_out <= rt;

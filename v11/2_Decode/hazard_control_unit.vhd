@@ -44,6 +44,7 @@ architecture behavioral of hazard_control_unit is
             if (id_ex_opcode = "100011" and id_ex_rt = if_id_rs) then
                 control_flush <= '1';
                 id_ex_flush <= '1';
+                ex_mem_flush <= '0';
                 load_address <= pc;
                 branch_mux_signal <= "10";
                 jump_mux_signal <= "00";
@@ -54,6 +55,7 @@ architecture behavioral of hazard_control_unit is
                 control_flush <= '1';
                 id_ex_flush <= '1';
                 load_address <= pc;
+                ex_mem_flush <= '0';
                 branch_mux_signal <= "10";
                 jump_mux_signal <= "00";
                 if_id_flush <= '1';

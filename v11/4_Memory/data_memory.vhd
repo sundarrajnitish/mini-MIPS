@@ -43,12 +43,14 @@ architecture behavioral of data_memory is
                     temp_data <= memory(to_integer(unsigned(mem_address)));
                     temp_data(7 downto 0) <= write_data(7 downto 0);
                     memory(to_integer(unsigned(mem_address))) <= temp_data;
+                    report "Byte stored in the memory";
                 when others =>
                     null;
         end case;
         case mem_read is
             when '1' =>
                 read_data <= memory(to_integer(unsigned(mem_address)));
+                report "Data read from the memory";
             when others =>
                 null;
         end case;

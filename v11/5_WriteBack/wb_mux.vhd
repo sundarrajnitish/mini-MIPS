@@ -12,11 +12,11 @@ use ieee.numeric_std.all;
 
 entity wb_mux is
     port(
-        read_data : in std_logic_vector(4 downto 0);
-        alu_result : in std_logic_vector(4 downto 0);
+        read_data : in std_logic_vector(31 downto 0);
+        alu_result : in std_logic_vector(31 downto 0);
         wb_mux_sel : in std_logic;
 
-        wb_mux_out : out std_logic_vector(4 downto 0)
+        wb_mux_out : out std_logic_vector(31 downto 0)
     );
 end wb_mux;
 
