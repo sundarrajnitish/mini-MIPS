@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mini-MIPS Pipeline Lab</title>
+<meta name="description" content="A cycle-accurate, interactive simulation of a 5-stage pipelined mini-MIPS processor: datapath animation, hazards, forwarding, and the verification methodology behind the VHDL design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='5' fill='%232a78d6'/%3E%3Cpath d='M8 22V10h3l5 7 5-7h3v12h-3v-7l-5 7-5-7v7z' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#top"><span class="brand-mark">m</span>mini-MIPS <span class="muted">Pipeline Lab</span></a>
+  <nav class="nav">
+    <a href="#sim">Simulator</a>
+    <a href="#learn">Learn</a>
+    <a href="#isa">ISA</a>
+    <a href="#review">Design review</a>
+    <a href="#verify">Verification</a>
+    <a href="#repo">Run it</a>
+  </nav>
+  <button class="icon-btn" id="themeBtn" title="Toggle light / dark" aria-label="Toggle colour theme">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+  </button>
+</header>
+
+<main id="top">
+
+<!-- ================================================================== HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">COEN 6741 · Computer Architecture · Concordia University · reworked 2026</p>
+    <h1>A 5-stage pipelined processor, <em>one clock cycle at a time</em></h1>
+    <p class="lede">mini-MIPS is a 32-bit, 11-instruction MIPS subset written in VHDL. This page runs a
+      JavaScript model of the pipeline that matches the RTL cycle for cycle. It was checked against the
+      GHDL simulation on every cycle of <b id="heroCycles">98,666</b> cycles. You can step through it,
+      edit the program, and see each hazard, forward and flush as it happens.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="#sim">Open the simulator</a>
+      <a class="btn" href="#review">What changed from v11</a>
+    </div>
+  </div>
+  <div class="hero-stats" id="heroStats"></div>
+</section>
+
+<!-- ============================================================= SIMULATOR -->
+<section id="sim" class="section sim">
+  <div class="section-head">
+    <h2>Pipeline simulator</h2>
+    <p>Pick a program, then step through it. Wires are coloured by the instruction using them.
+      <span class="chip fwd">forwarding</span> <span class="chip stall">stall</span> <span class="chip flush">flush</span>
+      mark hazard handling. Click any unit in the datapath for an explanation.</p>
+  </div>
+
+  <div class="toolbar">
+    <label class="select-wrap">Program
+      <select id="presetSel"></select>
+    </label>
+    <div class="transport">
+      <button class="btn" id="btnReset" title="Reset (R)">⟲ Reset</button>
+      <button class="btn" id="btnBack" title="Step back (←)">◀ Back</button>
+      <button class="btn primary" id="btnStep" title="Step one clock (→ or Space)">Step ▶</button>
+      <button class="btn" id="btnPlay" title="Run / pause (P)">▶ Run</button>
+      <button class="btn" id="btnEnd" title="Run to the end (E)">⇥ End</button>
+    </div>
+    <label class="speed">Speed <input type="range" id="speed" min="1" max="10" value="4"></label>
+    <div class="cycle-box"><span class="muted">cycle</span> <b id="cycleNo">0</b></div>
+    <button class="btn ghost" id="btnEdit">✎ Edit program</button>
+  </div>
+
+  <div class="editor-panel" id="editorPanel" hidden>
+    <div class="editor-grid">
+      <div>
+        <textarea id="editor" spellcheck="false" aria-label="Assembly program"></textarea>
+        <div class="editor-actions">
+          <button class="btn primary" id="btnAssemble">Assemble &amp; load</button>
+          <span id="asmMsg" class="asm-msg" role="status"></span>
+        </div>
+      </div>
+      <div class="editor-help">
+        <h4>Syntax</h4>
+        <pre>add  rd, rs, rt     nor / xor
+sll  rd, rt, shamt  jr rs
+andi rt, rs, imm    (zero-extended)
+subui rt, rs, imm   (sign-extended)
+lw   rt, off(rs)    sb rt, off(rs)
+beq  rs, rt, label  j label
+
+pseudo: li, la, move, b, nop, halt
+data:   .data / .word / .space
+regs:   $0-$31, r0-r31, $t0, $s1 …</pre>
+        <p>Every program must end in <code>halt</code> (<code>j .</code>). The simulation stops three
+          cycles after the halt reaches ID, once all older instructions have written back.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-strip" id="stageStrip"></div>
+
+  <div class="dp-wrap">
+    <div class="dp-scroll"><svg id="datapath" viewBox="0 0 1480 770" role="img" aria-label="Pipelined datapath"></svg></div>
+    <aside class="inspector" id="inspector">
+      <h3 id="inspTitle">This cycle</h3>
+      <div id="inspBody"></div>
+    </aside>
+  </div>
+
+  <div class="sim-grid">
+    <div class="card span2">
+      <div class="card-head"><h3>Pipeline timing diagram</h3><span class="muted small">rows = dynamic instructions · columns = clock cycles · click a column to jump</span></div>
+      <div class="timing-scroll" id="timingScroll"><table class="timing" id="timing"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Program</h3><span class="muted small">stage badges show where each instruction is</span></div>
+      <div class="listing" id="listing"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Statistics</h3></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="card span2">
+      <div class="card-head"><h3>Pipeline registers</h3><span class="muted small">values latched at the start of this cycle</span></div>
+      <div class="pregs" id="pregs"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Register file</h3>
+        <div class="seg" id="radix"><button data-r="hex" class="on">hex</button><button data-r="dec">dec</button></div></div>
+      <div class="regs" id="regs"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Data memory</h3><span class="muted small">first 32 words · little-endian</span></div>
+      <div class="mem" id="mem"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= LEARN -->
+<section id="learn" class="section">
+  <div class="section-head">
+    <h2>How the pipeline works</h2>
+    <p>Each instruction takes five steps. Every step has its own hardware, so five instructions can be
+      in flight at once, one per stage. Pipeline registers between the stages hold everything the later
+      stages will need. The <em>Show me</em> buttons load a program and jump to the cycle where the event happens.</p>
+  </div>
+  <div class="stage-cards" id="stageCards"></div>
+
+  <h3 class="sub">Hazards, and how the hardware resolves each one</h3>
+  <div class="hazard-grid" id="hazardCards"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Forwarding unit, the exact conditions</h3>
+<pre class="code"><span class="c">-- EX stage: MUX C (operand A) and MUX D (operand B / store data)</span>
+if EX/MEM.RegWrite and EX/MEM.dest ≠ 0 and EX/MEM.dest = ID/EX.src
+    → select EX/MEM.ALUResult          <span class="c">-- newest value wins</span>
+elif MEM/WB.RegWrite and MEM/WB.dest ≠ 0 and MEM/WB.dest = ID/EX.src
+    → select WB value (ALU result or loaded word)
+else → value read in ID
+
+<span class="c">-- ID stage: MUX E (rs) and MUX F (rt), for BEQ / JR / ID/EX</span>
+if EX/MEM.RegWrite and not EX/MEM.MemRead
+   and EX/MEM.dest ≠ 0 and EX/MEM.dest = IF/ID.src
+    → select EX/MEM.ALUResult
+<span class="c">-- MEM/WB → ID is the register file's write-through bypass</span></pre>
+    </div>
+    <div class="card">
+      <h3>Hazard detection unit, the exact conditions</h3>
+<pre class="code"><span class="c">-- reads(r): r ≠ 0 and (uses_rs and rs = r or uses_rt and rt = r)</span>
+load_use   = ID/EX.MemRead and reads(ID/EX.dest)
+branch_haz = (Branch or JumpReg) and
+             ( ID/EX.RegWrite  and reads(ID/EX.dest)      <span class="c">-- not computed yet</span>
+             or EX/MEM.MemRead and reads(EX/MEM.dest) )   <span class="c">-- not loaded yet</span>
+stall      = load_use or branch_haz
+    → PCWrite = 0, IF/ID.Write = 0, ID/EX ← bubble
+
+if not stall:
+    BEQ and equal → PC ← PC+4 + (sext(imm) &lt;&lt; 2), flush IF/ID
+    J             → PC ← {PC+4[31:28], target, 00}, flush IF/ID
+    JR            → PC ← rs (forwarded),           flush IF/ID</pre>
+    </div>
+  </div>
+
+  <h3 class="sub">Control signals, generated in ID</h3>
+  <div class="card table-card"><div class="table-scroll"><table class="ctrl-table" id="ctrlTable"></table></div></div>
+</section>
+
+<!-- =================================================================== ISA -->
+<section id="isa" class="section">
+  <div class="section-head">
+    <h2>Instruction set &amp; encoder</h2>
+    <p>11 instructions in three formats. Type any instruction to see its bit fields, machine code and
+      the control word the decoder produces. It uses the same assembler as the simulator.</p>
+  </div>
+  <div class="encoder card">
+    <div class="enc-input"><input id="encIn" value="lw $t0, 100($t1)" spellcheck="false" aria-label="Instruction to encode"><span id="encHex" class="enc-hex"></span></div>
+    <div id="encBits" class="enc-bits"></div>
+    <div id="encInfo" class="enc-info"></div>
+    <div class="enc-examples" id="encExamples"></div>
+  </div>
+  <div class="card table-card"><div class="table-scroll"><table class="isa-table" id="isaTable"></table></div></div>
+</section>
+
+<!-- ========================================================= DESIGN REVIEW -->
+<section id="review" class="section">
+  <div class="section-head">
+    <h2>Design review: v11 → v12</h2>
+    <p>The 2023 design (v11) compiled and ran in ModelSim, but its testbench was not self-checking, so
+      nobody saw that the program went wrong. The v11 sources were compiled in GHDL and traced cycle by
+      cycle. Each unit was then checked against the MIPS specification. What turned up is below, along
+      with how v12 handles each item.</p>
+  </div>
+
+  <div class="review-top">
+    <figure class="card fig">
+      <img src="assets/v11-datapath.png" alt="Original v11 pipelined datapath diagram" loading="lazy">
+      <figcaption>The original v11 datapath. The overall structure holds up and v12 keeps it: five stages,
+        a hazard unit, a forwarding unit, and forwarding muxes A–F. v12 changes where branches resolve,
+        how load-use is handled, and the order of MUX A/D. The address buffer and the WB buffer are
+        dropped because they only existed to patch timing.</figcaption>
+    </figure>
+    <div class="card evidence">
+      <h3>What v11 actually did in simulation</h3>
+      <p class="small muted">GHDL 4.1, original <code>test_bench.vhd</code>, sampled every rising edge</p>
+      <div id="v11Trace"></div>
+      <p class="small">The ROM comment says <code>JR R21</code>, but the word <code>0x08150008</code> is
+        really <code>J 0x540020</code>. The PC left the program at 229 ns. A branch then
+        chose the <em>load-address</em> input (always 0) and the program restarted. Neither failure made the
+        testbench report anything.</p>
+    </div>
+  </div>
+
+  <h3 class="sub">Architecture decisions</h3>
+  <div class="arch-grid" id="archGrid"></div>
+
+  <h3 class="sub">All findings <span class="muted small" id="findCount"></span></h3>
+  <div class="filters" id="findFilters"></div>
+  <div class="findings" id="findings"></div>
+</section>
+
+<!-- ========================================================== VERIFICATION -->
+<section id="verify" class="section">
+  <div class="section-head">
+    <h2>Verification methodology</h2>
+    <p>"It simulates" is not the same as "it is correct". v12 is checked in four independent ways, and
+      the tests themselves were tested by deliberately breaking the design.</p>
+  </div>
+  <div class="flow card"><svg id="flowSvg" viewBox="0 0 1100 300" role="img" aria-label="Verification flow"></svg></div>
+  <div class="method-grid" id="methodGrid"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head"><h3>CPI across 1,000 random programs</h3></div>
+      <div id="cpiChart" class="chart"></div>
+      <p class="small muted">CPI = cycles ÷ instructions, including the 4-cycle fill and drain. Ideal is 1.0.
+        Stalls and flushes are what push it higher. Random programs are dense with dependences, so this
+        is close to a worst case.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Directed programs</h3></div>
+      <div class="table-scroll"><table class="dir-table" id="dirTable"></table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h3>Mutation testing: does the regression catch real bugs?</h3><span class="muted small" id="mutScore"></span></div>
+    <p class="small">Each mutant puts one realistic bug into a copy of the RTL. Several of them are
+      the actual v11 bugs. A mutant counts as <b>killed</b> if any program in the regression fails.
+      Two mutants survived the first run. One of them showed a real gap in the tests: random branches were almost never
+      taken, so a missing stall went unnoticed. The generator and a directed test were fixed. The other survivor is
+      <em>equivalent</em>, meaning no program can observe it (explained below).</p>
+    <div class="mutants" id="mutants"></div>
+  </div>
+</section>
+
+<!-- ================================================================== REPO -->
+<section id="repo" class="section">
+  <div class="section-head">
+    <h2>Run it yourself</h2>
+    <p>Everything on this page is regenerated from the <code>v12/</code> folder of the repository.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>Commands</h3>
+<pre class="code"><span class="c"># requirements: GHDL ≥ 3 (VHDL-2008), Python 3, Node ≥ 18</span>
+cd v12
+make test        <span class="c"># ALU unit test + directed + 200 random programs</span>
+make regress     <span class="c"># 1,000 random programs</span>
+make jscheck     <span class="c"># website model vs RTL, cycle by cycle</span>
+make mutation    <span class="c"># 20 injected bugs, all must be caught</span>
+make site        <span class="c"># rebuild ../docs (this page)</span>
+
+<span class="c"># one program, by hand</span>
+python3 sw/mips_asm.py sw/programs/00_tour.s
+python3 sw/mips_iss.py sw/programs/00_tour.s</pre>
+    </div>
+    <div class="card">
+      <h3>Layout</h3>
+<pre class="code tree">v12/
+├─ rtl/
+│  ├─ mips_pkg.vhd          types, ISA constants, records
+│  ├─ mips_cpu.vhd          top level: stages + muxes A–F
+│  ├─ 1_fetch/              PC, IMEM, branch/jump mux, IF/ID
+│  ├─ 2_decode/             control, regfile, hazard, branch unit
+│  ├─ 3_execute/            ALU, forwarding unit, EX/MEM
+│  ├─ 4_memory/             data memory, MEM/WB
+│  └─ 5_writeback/          WB mux
+├─ tb/   tb_mips.vhd (self-checking system), tb_alu.vhd
+├─ sw/   assembler, golden ISS, random generator,
+│        regression, mutation, JS-model checker
+└─ web/  sources of this page (mips-core.js = the model)</pre>
+    </div>
+  </div>
+  <footer class="foot">
+    <p>Original design by Nitish Sundarraj Balaji with Nour Dekhil, Amira Jemma and Shu Gho (COEN 6741, Winter 2023).
+      v12 rework, verification and this page, 2026.</p>
+  </footer>
+</section>
+</main>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script src="assets/mips-core.js"></script>
+<script src="assets/programs.js"></script>
+<script src="assets/verification.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

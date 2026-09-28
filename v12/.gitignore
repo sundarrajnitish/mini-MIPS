@@ -1,0 +1,6 @@
+build/
+__pycache__/
+*.pyc
+sw/programs/*.hex
+sw/programs/*.lst
+sw/programs/*.expect
