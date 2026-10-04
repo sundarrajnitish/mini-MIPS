@@ -1,9 +1,9 @@
 ------------------------------------------------------------------------------
--- mini-MIPS v12 : shared types, ISA constants and pipeline-register records
+-- mini-MIPS : shared types, ISA constants and pipeline-register records
 --
--- Original design : Nitish Sundarraj Balaji (COEN 6741, Concordia, W2023)
--- v12 rework      : single-edge synchronous pipeline, branch/jump in ID,
---                   load-use interlock, EX + ID forwarding.
+-- Author : Nitish Sundarraj Balaji
+-- 32-bit, 5-stage pipelined MIPS subset: single-edge synchronous design,
+-- branch/jump resolution in ID, load-use interlock, EX + ID forwarding.
 ------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -41,7 +41,7 @@ package mips_pkg is
   constant FN_XOR   : funct_t := "100110";
   constant FN_NOR   : funct_t := "100111";
 
-  -- ALU operation encoding (kept from the original v11 ALU)
+  -- ALU operation encoding
   constant ALU_ADD : alu_op_t := "000";
   constant ALU_AND : alu_op_t := "001";
   constant ALU_XOR : alu_op_t := "010";

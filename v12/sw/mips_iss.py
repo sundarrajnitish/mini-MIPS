@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-mini-MIPS v12 golden reference model (instruction-set simulator).
+mini-MIPS golden reference model (instruction-set simulator).
 
 Executes one instruction at a time with no notion of a pipeline. The RTL must
 end in exactly the same architectural state (registers + data memory) as this

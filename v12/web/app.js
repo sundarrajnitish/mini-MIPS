@@ -107,7 +107,7 @@
     badd: ['Branch target adder', 'ID', 'PC+4 + (sign-extended offset << 2). The offset counts words, so it is shifted left by 2 to make a byte offset.'],
     jcalc: ['Jump address', 'ID', 'J target = { PC+4[31:28], target26, "00" }.'],
     muxc: ['MUX C (EX forwarding, operand A)', 'EX', 'Picks ALU operand A. The choices are the value read in ID (0), the value being written back from MEM/WB (1), or the ALU result in EX/MEM (2). The newest producer wins.'],
-    muxd: ['MUX D (EX forwarding, rt)', 'EX', 'Same as MUX C, for rt. Its output feeds MUX A and is also the SB store data. It sits before MUX A, so forwarding can never overwrite an immediate. v11 had that order the other way round.'],
+    muxd: ['MUX D (EX forwarding, rt)', 'EX', 'Same as MUX C, for rt. Its output feeds MUX A and is also the SB store data. It sits before MUX A, so forwarding can never overwrite an immediate.'],
     muxa: ['MUX A (ALUSrc)', 'EX', 'Selects the forwarded rt value (0) or the extended immediate (1) as ALU operand B.'],
     muxb: ['MUX B (RegDst)', 'EX', 'Selects the destination register: rd for R-type, rt for ANDI, SUBUI and LW.'],
     alu: ['ALU', 'EX', 'Combinational: ADD, SUB, AND, XOR, NOR, and SLL (operand B shifted by shamt). Arithmetic wraps modulo 2³² with no overflow trap.'],
@@ -964,67 +964,29 @@
   }
 
   /* ================================================================== */
-  /* Design review                                                        */
+  /* Design decisions                                                     */
   /* ================================================================== */
-  const FINDINGS = [
-    ['critical', 'Instruction ROM encodings don\'t match their comments', 'v11/1_Fetch/instruction_memory.vhd', '10 of the 12 words decode to a different instruction than the comment says. "LW R9, 24(R4)" is really add $5,$6,$7. "JR R21" (0x08150008) is J 0x540020. "SUBUI" uses the ANDI opcode.', 'Programs are written in assembly and encoded by an assembler, and the Python and JS assemblers are cross-checked against each other. The ROM is loaded from a hex file.'],
-    ['critical', 'Branch selects the wrong next-PC input', 'v11/2_Decode/hazard_control_unit.vhd', 'On a branch the hazard unit drives branch_mux_signal = "10", which is the load_address input (always 0), not "01", the branch target. Every taken branch restarts the program at 0x0. This was seen in simulation at 249 ns.', 'A single pc_sel decision in the hazard unit, resolved in ID, drives the branch and jump MUXes.'],
-    ['critical', 'Stage logic is clocked, so results arrive a cycle late', 'control_unit.vhd, alu.vhd, hazard_control_unit.vhd, register_memory.vhd, instruction_memory.vhd', 'The control unit, ALU, hazard unit, register-file reads and instruction ROM are all registered. Control signals therefore reach ID/EX one cycle after the data they belong to. In the ALU, alu_result <= temp_alu_result reads a signal assigned in the same process, which adds a second cycle, and Zero is computed from the stale value.', 'Everything between pipeline registers is combinational. Only the PC, the four pipeline registers, the register file and the data memory hold state.'],
-    ['critical', 'LW writes back the store-data register', 'v11/test_bench.vhd (mem_wb_buffer map)', 'MEM/WB read_data_reg is connected to ex_mem_read_data2, not to the data-memory output, so a load never returns memory contents.', 'mem_wb_d.read_data <= dmem_rdata. Directed test 02 checks this, and so does the wb_wrong_data mutant.'],
-    ['critical', 'I-type results go to the wrong register', 'v11/test_bench.vhd (ex_mem_buffer map)', 'EX/MEM rd is taken from id_ex_rd instead of the RegDst mux output. ANDI, SUBUI and LW therefore write to the register named by immediate bits [15:11].', 'EX/MEM.dest comes from MUX B (RegDst).'],
-    ['critical', 'Register write uses mismatched stages', 'v11/test_bench.vhd (register_file map)', 'write_register comes from wb_buffer, which is delayed a cycle, but reg_write comes straight from MEM/WB. Each write lands in the previous instruction\'s destination.', 'Write enable, address and data all come from MEM/WB in the same cycle.'],
-    ['critical', 'JR target never connected', 'v11/test_bench.vhd', 'The jr_address signal feeding the address buffer is never driven, so JR always jumps to 0.', 'JR target = MUX E output (the forwarded rs value), resolved in ID.'],
-    ['critical', 'BEQ decoded incorrectly', 'v11/2_Decode/control_unit.vhd', 'BEQ sets RegWrite = 1 and ALUSrc = 1, so it compares rs with the immediate and then writes a register. ALUOp is never assigned for any I-type instruction, so it keeps whatever value the previous instruction left (an inferred latch).', 'Complete truth table, with every output assigned on every path from a CTRL_NOP default.'],
-    ['major', 'Forwarding selects swapped between stages', 'v11/test_bench.vhd (forward_control_unit map)', 'The ID-stage comparison outputs (1/2) drive the EX muxes C/D, and the EX-stage outputs (3/4) drive the ID muxes E/F. MemtoReg for MEM/WB forwarding is taken from EX/MEM.', 'A separate, named select for each mux. The EX part matches the textbook conditions exactly.'],
-    ['major', 'Forwarding ignores RegWrite and $0', 'v11/3_Execute/forward_control_unit.vhd', 'Any instruction whose rd field matches is forwarded, including SB, BEQ and J, and writes to $0. The combinational process also has a clk sensitivity it does not use.', 'Only producers with RegWrite = 1 and dest ≠ $0 are forwarded. The fwd_r0 and fwd_no_regwrite mutants check this.'],
-    ['major', 'Forwarding MUX placed after the ALUSrc MUX', 'datapath diagram, MUX A → MUX D', 'With MUX D after MUX A, a forwarded rt value replaces the immediate of ANDI, SUBUI, LW and SB whenever rt matches a recent destination. SB store data is also taken before forwarding.', 'MUX D (forwarding) comes first, then MUX A (ALUSrc). Store data is the MUX D output.'],
-    ['major', 'ID/EX flush does not stop the flushed instruction', 'v11/2_Decode/id_ex_buffer.vhd', 'Flush clears the internal staging signals but not the outputs, and alu_op bypasses the staging entirely. The flushed instruction\'s control still reaches EX.', 'The bubble is loaded into the one ID/EX register, with valid = 0 and all control = 0.'],
-    ['major', 'EX/MEM flush never driven', 'v11/test_bench.vhd', 'The hazard unit has an ex_mem_flush output, but it is not mapped. ex_mem_flush and mem_wb_flush are constant 0.', 'With branches resolved in ID, the EX/MEM flush is no longer needed.'],
-    ['major', 'Branch decision mixes two instructions', 'v11/test_bench.vhd (branch_and_gate map)', 'The AND gate combines EX/MEM.Branch (MEM stage) with the live ALU Zero output (EX stage), which belong to different instructions.', 'BEQ is compared in ID with forwarded operands.'],
-    ['major', '$0 writable, $31 reads as 0', 'v11/2_Decode/register_memory.vhd', 'Reads of register 31 are hard-coded to 0 while writes to register 0 go through. That is the opposite of MIPS.', '$0 is hard-wired to zero and all 31 other registers work normally. A write-through bypass is added.'],
-    ['major', 'Store byte writes a stale word, always to lane 0', 'v11/4_Memory/data_memory.vhd', 'The read-modify-write goes through a signal (temp_data), so the old temp value is written. The byte always lands in bits 7:0. The byte address is used as a word index, so addresses ≥ 1024 go out of range.', 'Byte-addressed, little-endian lane select addr[1:0], word index addr[11:2], addresses wrap.'],
-    ['major', 'Branch offset not shifted', 'v11/3_Execute/branch_address_calc.vhd', 'Target = PC+4 + imm, missing the << 2 that turns a word offset into a byte offset.', 'PC+4 + (sext(imm) << 2). The branch_no_shift mutant checks this.'],
-    ['major', 'Load-use handled by flush and replay', 'v11/2_Decode/hazard_control_unit.vhd', 'On a load-use hazard, v11 flushes IF/ID and ID/EX and reloads the PC through the Load Address path. That costs 2 cycles instead of 1, and it fires even when rt is a destination rather than a source.', 'A classic 1-cycle interlock (PCWrite / IF/ID.Write = 0, bubble into ID/EX) that checks only real source operands.'],
-    ['minor', 'Mixed rising/falling-edge clocking', 'address_buffer, if_id_buffer, id_ex_buffer, ex_mem_buffer, mem_wb_buffer, register_memory', 'About half the state updates on the falling edge. That creates half-cycle timing paths and makes the design hard to reason about. The address buffer and WB buffer existed only to paper over this.', 'A single rising edge with synchronous reset. The address buffer and WB buffer are removed.'],
-    ['minor', 'U/X values masked instead of fixed', 'program_counter.vhd, alu.vhd, wb_buffer.vhd', 'Comparisons against "UUUU…" and "XXXX…" hide uninitialised signals instead of fixing the missing reset.', 'A proper synchronous reset. No metavalue checks are needed.'],
-    ['minor', 'ANDI sign-extends its immediate', 'v11/2_Decode/sign_extend.vhd', 'MIPS logical immediates are zero-extended. With sign extension, an ANDI immediate of 0x8000 or more also keeps the upper 16 bits of rs, which MIPS code does not expect.', 'ExtOp from the control unit: zero-extend for ANDI, sign-extend otherwise.'],
-    ['minor', 'Testbench is not self-checking', 'v11/test_bench.vhd', 'It runs 20 clock cycles with no reset and no checks. Every bug above passed without comment.', 'Self-checking against a golden model, 1,000+ random programs, cycle-exact cross-check, and mutation testing.'],
-  ];
-  function initReview() {
-    const rows = [
-      ['29', '0x00', 'FFFFFFFF', 'ROM is registered: the first fetch returns the invalid-word default', 1],
-      ['69', '0x08', 'XXXXXXXX', 'ALU result undefined (clocked ALU, uninitialised operands)', 1],
-      ['109', '0x10', '00000000', 'write-back to $31 (0x1F): wrong destination', 1],
-      ['209', '0x24', '00000000', 'jump MUX selects "J" (0x08150008 decoded as J)', 0],
-      ['229', '0x540020', '00000008', 'PC has left the program', 1],
-      ['249', '0x00', '00012800', 'branch picked load_address = 0, so the program restarts', 1],
-    ];
-    $('#v11Trace').innerHTML = '<table><thead><tr><th>t (ns)</th><th>PC</th><th>ALU</th><th>observation</th></tr></thead><tbody>' +
-      rows.map((r) => `<tr class="${r[4] ? 'bad' : ''}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td style="white-space:normal">${esc(r[3])}</td></tr>`).join('') + '</tbody></table>';
-
+  function initDesign() {
     const arch = [
-      ['Branch resolution', 'BEQ resolved in MEM by an AND gate: 3 wrong-path instructions flushed (IF/ID, ID/EX, EX/MEM).', 'BEQ, J and JR resolved in ID with a comparator and ID forwarding (MUX E/F): 1 flushed slot.'],
-      ['Load-use hazard', 'Flush IF/ID and ID/EX, then re-fetch through the "Load Address" path: 2 lost cycles.', 'Classic interlock: PCWrite = IF/ID.Write = 0 and a bubble into ID/EX. 1 lost cycle.'],
-      ['Clocking', 'Mixed rising and falling edges. Control, ALU, hazard unit and ROM all registered. Address buffer and WB buffer added to compensate.', 'One rising edge. Every stage is combinational between the pipeline registers.'],
-      ['Forwarding order', 'MUX A (ALUSrc) before MUX D (forward): a forward could overwrite the immediate.', 'Forward first (MUX C/D), then ALUSrc (MUX A). SB data uses the forwarded value.'],
-      ['Register file', '$31 reads as 0, $0 is writable. A separate WB buffer delays writes.', '$0 hard-wired to zero. A write-through bypass stands in for write-first-half/read-second-half.'],
-      ['Verification', '20-cycle testbench, waveform inspection by eye.', 'Self-checking testbench, golden ISS, 1,000 constrained-random programs, mutation testing, and a JS model that matches the RTL cycle for cycle.'],
+      ['One clock edge', 'Every state element updates on the rising edge with a synchronous reset. All logic between the pipeline registers is combinational.', 'A full cycle is available for every stage, there are no half-cycle timing paths, and the RTL reads the same way the pipeline diagram does.'],
+      ['Branches and jumps resolve in ID', 'BEQ is compared in ID, using operands that MUX E/F forward from EX/MEM. J and JR also redirect the PC from ID. Fetch predicts not-taken.', 'A taken branch or a jump costs a single fetch slot (resolving in MEM would cost three), and only one instruction ever has to be squashed.'],
+      ['Load-use interlock', 'If the instruction in EX is a load whose destination is a real source of the instruction in ID, the PC and IF/ID hold for one cycle and a bubble enters ID/EX.', 'This is the minimum possible penalty for a 5-stage pipeline. After the stall, the loaded word reaches EX through MEM/WB forwarding.'],
+      ['Forward first, then select the immediate', 'The forwarding muxes C and D sit in front of the ALUSrc mux A. SB store data is taken from the forwarded rt value.', 'A forwarded register value can never replace an immediate, and a store always writes the newest value of its data register.'],
+      ['Register file with write-through', '$0 is hard-wired to zero. A read of the register that WB is writing in the same cycle returns the new value.', 'The third RAW distance needs no extra forwarding path, and the register file never causes a structural hazard.'],
+      ['Byte-addressed data memory', '4 KiB, little-endian. LW reads an aligned word. SB writes only byte lane addr[1:0].', 'Matches how MIPS software sees memory, so packed byte data reads back correctly with LW (see the Fibonacci program).'],
     ];
-    $('#archGrid').innerHTML = arch.map(([t, a, b]) => `<div class="card arch"><h3>${t}</h3><div class="ba"><div><b>v11</b>${esc(a)}</div><div><b>v12</b>${esc(b)}</div></div></div>`).join('');
-
-    const sevs = ['all', 'critical', 'major', 'minor'];
-    let cur = 'all';
-    const draw = () => {
-      const list = FINDINGS.map((f, i) => [i + 1, ...f]).filter((f) => cur === 'all' || f[1] === cur);
-      $('#findings').innerHTML = list.map(([n, sev, title, file, what, fix]) => `<div class="card finding"><span class="no">${String(n).padStart(2, '0')}</span>
-        <h4>${esc(title)} <span class="sev ${sev}">${sev}</span></h4><div class="body"><div class="file">${esc(file)}</div><p>${esc(what)}</p><p class="fix">${esc(fix)}</p></div></div>`).join('');
-      $$('#findFilters button').forEach((b) => b.classList.toggle('on', b.dataset.s === cur));
-    };
-    const cnt = (s) => FINDINGS.filter((f) => s === 'all' || f[0] === s).length;
-    $('#findFilters').innerHTML = sevs.map((s) => `<button data-s="${s}">${s} (${cnt(s)})</button>`).join('');
-    $$('#findFilters button').forEach((b) => b.onclick = () => { cur = b.dataset.s; draw(); });
-    $('#findCount').textContent = `${FINDINGS.length} items`;
-    draw();
+    $('#archGrid').innerHTML = arch.map(([t, a, b]) => `<div class="card arch"><h3>${t}</h3><div class="ba"><div><b>choice</b>${esc(a)}</div><div><b>why</b>${esc(b)}</div></div></div>`).join('');
+    const cost = [
+      ['ALU result → next instruction', 'EX/MEM → EX (MUX C/D)', '0'],
+      ['ALU result → 2 instructions later', 'MEM/WB → EX (MUX C/D)', '0'],
+      ['any result → 3 instructions later', 'register-file write-through', '0'],
+      ['LW → next instruction', 'interlock + MEM/WB → EX', '1 stall'],
+      ['ALU result → BEQ/JR right after', 'interlock + EX/MEM → ID (MUX E/F)', '1 stall'],
+      ['LW → BEQ/JR right after', 'interlock ×2 + register-file bypass', '2 stalls'],
+      ['taken BEQ, J, JR', 'redirect in ID, flush IF/ID', '1 slot'],
+    ];
+    $('#costTable').innerHTML = '<thead><tr><th>dependence</th><th>resolved by</th><th>cost</th></tr></thead><tbody>' +
+      cost.map((r) => `<tr><td>${esc(r[0])}</td><td style="text-align:left">${esc(r[1])}</td><td class="num">${r[2]}</td></tr>`).join('') + '</tbody>';
   }
 
   /* ================================================================== */
@@ -1041,14 +1003,14 @@
       [fmt(nprog), 'programs pass the golden-model check, 0 fail'],
       [fmt(V.js_cycles), 'cycles where the web model matched the RTL trace'],
       [`${killed}/${V.mutation.length}`, 'injected bugs caught (the 1 survivor is provably equivalent)'],
-      [String(FINDINGS.length), 'issues found in the original v11 design'],
+      [fmt(V.alu_checks), 'ALU test vectors checked against a reference model'],
     ].map(([v, l]) => `<div class="stat-tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
 
     $('#methodGrid').innerHTML = [
       [fmt(V.alu_checks), 'ALU unit test', 'Every operation against a reference model: 36 corner-case pairs, then 20,000 random vectors per operation.'],
       [`${V.directed.length} + ${fmt(V.random.n)}`, 'System regression', 'Directed programs, one per hazard class, plus constrained-random programs whose register pool keeps most instructions dependent on recent ones. The final 32 registers and all 4 KiB of memory are compared with the golden ISS.'],
       [fmt(V.js_cycles), 'Model equivalence', 'The website\'s JS pipeline and the GHDL testbench each write a 26-column trace every cycle. They must match exactly on every cycle of every program, stalls and forwarding decisions included.'],
-      [`${killed}/${V.mutation.length}`, 'Mutation score', 'Twenty realistic bugs are injected one at a time, many of them the actual v11 bugs. Each must make some test fail, which shows the tests can find real bugs.'],
+      [`${killed}/${V.mutation.length}`, 'Mutation score', 'Twenty realistic bugs are injected one at a time. Each must make some test fail, which shows the tests can find real bugs.'],
     ].map(([v, l, p]) => `<div class="card method"><div class="v">${v}</div><div class="l">${l}</div><p>${p}</p></div>`).join('');
 
     // directed table
@@ -1147,7 +1109,7 @@
     initControls();
     initLearn();
     initISA();
-    initReview();
+    initDesign();
     initVerify();
     loadPreset(window.PROGRAMS[0].id, 1);
   }

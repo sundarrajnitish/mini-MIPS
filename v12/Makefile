@@ -1,4 +1,4 @@
-# mini-MIPS v12 -- verification & site build
+# mini-MIPS -- verification & site build
 # Requirements: GHDL (VHDL-2008), Python 3, Node >= 18
 GHDL  ?= ghdl
 FLAGS  = --std=08 --workdir=.

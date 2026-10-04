@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the GitHub Pages site (../docs) from v12/web + v12/sw/programs + regression results."""
+"""Builds the GitHub Pages site (../docs) from web/ + sw/programs + regression results."""
 import glob, json, os, re, shutil, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -10,9 +10,6 @@ os.makedirs(A, exist_ok=True)
 shutil.copy(os.path.join(ROOT, 'web', 'index.html'), os.path.join(DOCS, 'index.html'))
 for f in ('style.css', 'app.js', 'mips-core.js'):
     shutil.copy(os.path.join(ROOT, 'web', f), os.path.join(A, f))
-img = os.path.join(ROOT, 'web', 'v11-datapath.png')
-if os.path.exists(img):
-    shutil.copy(img, os.path.join(A, 'v11-datapath.png'))
 open(os.path.join(DOCS, '.nojekyll'), 'w').close()
 
 progs = []

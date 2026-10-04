@@ -1,10 +1,10 @@
-/* mini-MIPS v12 — assembler + cycle-accurate pipeline model.
+/* mini-MIPS — assembler + cycle-accurate pipeline model.
  *
  * This file mirrors rtl/ signal-for-signal: every clock cycle it evaluates the
  * same combinational logic as mips_cpu.vhd (WB -> MEM -> EX -> ID -> IF) and
  * then commits the same register updates on the rising edge. Its per-cycle
  * trace is compared line-by-line with the GHDL testbench trace
- * (v12/sw/check_js_model.js), so what the website animates is exactly what
+ * (sw/check_js_model.js), so what the website animates is exactly what
  * the RTL does.
  *
  * Works in the browser (window.MiniMIPS) and in Node (module.exports).
@@ -25,7 +25,7 @@
   const sext16 = (x) => (x & 0x8000) ? (x | 0xFFFF0000) : (x & 0xFFFF);
 
   /* ------------------------------------------------------------------ */
-  /* Assembler (same syntax as v12/sw/mips_asm.py)                        */
+  /* Assembler (same syntax as sw/mips_asm.py)                           */
   /* ------------------------------------------------------------------ */
   class AsmError extends Error {
     constructor(msg, line) { super(msg); this.line = line; }

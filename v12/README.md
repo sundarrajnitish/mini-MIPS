@@ -1,26 +1,22 @@
-# mini-MIPS v12
+# mini-MIPS
 
-A 32-bit, 5-stage pipelined MIPS subset in synthesizable VHDL-2008. It is a rework of the
-COEN 6741 (Concordia, Winter 2023) design in `../v11`, with a self-checking verification flow.
+A 32-bit, 5-stage pipelined MIPS subset in synthesizable VHDL-2008, with a self-checking
+verification flow and an interactive website.
 
 **Interactive site:** [`../docs`](../docs/index.html) (published through GitHub Pages). It has a
-cycle-by-cycle datapath simulator, a hazard tutorial, the v11 design review, and the verification
+cycle-by-cycle datapath simulator, a hazard tutorial, the design decisions, and the verification
 results.
 
-## What changed from v11
+## Microarchitecture
 
-v11 compiled and ran, but its testbench did not check anything. Traced in GHDL, the v11 program left
-its code region at 229 ns and restarted at 249 ns. The full list of 22 findings is on the site under
-*Design review*. The main architectural changes:
-
-| | v11 | v12 |
-|---|---|---|
-| Clocking | mixed rising/falling edges; control, ALU, hazard unit and ROM registered | one rising edge; all stage logic combinational |
-| Branch / J / JR | BEQ resolved in MEM, 3 slots flushed | resolved in ID (comparator + MUX E/F forwarding), 1 slot flushed |
-| Load-use | flush + re-fetch through "Load Address" (2 cycles) | classic interlock (1 stall) |
-| Forwarding | MUX D after ALUSrc MUX A; selects swapped; no RegWrite/$0 check | textbook EX forwarding (C/D) before MUX A, plus ID forwarding (E/F) |
-| Register file | $31 reads 0, $0 writable, extra WB buffer | $0 hard-wired, write-through bypass |
-| Data memory | byte address used as word index, SB always lane 0 | byte-addressed, little-endian byte lanes |
+- One rising clock edge with synchronous reset. All stage logic is combinational between the PC, the four
+  pipeline registers, the register file and the data memory.
+- BEQ, J and JR are resolved in ID. The comparator gets its operands through ID forwarding (MUX E/F),
+  and fetch predicts not-taken.
+- A classic load-use interlock: the PC and IF/ID hold, and a bubble goes into ID/EX.
+- EX forwarding (MUX C/D) sits in front of the ALUSrc mux (MUX A), so an immediate is never overwritten.
+- The register file has `$0` hard-wired to zero and a write-through bypass.
+- Data memory is 4 KiB, byte-addressed and little-endian, with per-lane SB writes.
 
 ## ISA (11 instructions)
 
@@ -96,7 +92,7 @@ In ModelSim/Questa, compile the files in `scripts/files.txt` order with `-2008`,
 | ALU unit test | 120,216 vectors, pass |
 | Directed programs (6) | pass |
 | Constrained-random programs (1,000; 75,810 instructions) | pass, aggregate CPI 1.298 |
-| JS model vs RTL trace | 1,006 programs, 98,666 cycles, cycle-exact |
+| JS model vs RTL trace | 1,006 programs, 98,669 cycles, cycle-exact |
 | Mutation testing | 19/20 killed; the survivor is an equivalent mutant (see site) |
 | `ghdl --synth` of `mips_cpu` | elaborates to a netlist |
 

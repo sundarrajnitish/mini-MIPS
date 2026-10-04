@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-mini-MIPS v12 assembler / disassembler.
+mini-MIPS assembler / disassembler.
 
 Usage:
     python3 mips_asm.py prog.s [-o prog]      -> prog.imem.hex, prog.dmem.hex, prog.lst

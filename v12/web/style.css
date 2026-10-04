@@ -319,7 +319,6 @@ table.ctrl-table, table.isa-table, table.dir-table { border-collapse: collapse; 
 .finding .body { grid-column: 2; font-size: 14px; color: var(--ink-2); }
 .finding .body p { margin: 4px 0; }
 .finding .fix { color: var(--ink); }
-.finding .fix::before { content: "v12 → "; font: 600 12px var(--mono); color: var(--good-ink); }
 .finding .file { font: 12px var(--mono); color: var(--muted); }
 
 /* ---------- verification ---------- */
@@ -382,3 +381,7 @@ table.ctrl-table, table.isa-table, table.dir-table { border-collapse: collapse; 
   .stage-strip { grid-template-columns: repeat(5, minmax(120px, 1fr)); overflow-x: auto; }
   .hero-stats { grid-template-columns: 1fr 1fr; }
 }
+
+.glance { margin: 0; padding-left: 18px; font-size: 14px; color: var(--ink-2); display: grid; gap: 8px; }
+.glance b { color: var(--ink); }
+#costTable td:first-child { font-weight: 500; font-family: var(--sans); }

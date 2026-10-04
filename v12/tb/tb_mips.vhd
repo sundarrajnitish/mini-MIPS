@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
--- tb_mips : self-checking system testbench for mini-MIPS v12
+-- tb_mips : self-checking system testbench for mini-MIPS
 --
 --  1. loads IMEM_FILE / DMEM_FILE into the CPU, releases reset
 --  2. writes one CSV line per clock cycle to TRACE_FILE (pipeline occupancy,

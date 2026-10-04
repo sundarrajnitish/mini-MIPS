@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Constrained-random program generator for mini-MIPS v12.
+Constrained-random program generator for mini-MIPS.
 
 The generator deliberately draws operands from a small register pool so that
 almost every instruction depends on one of the previous 1-3 instructions --

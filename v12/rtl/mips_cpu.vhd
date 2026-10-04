@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
--- mini-MIPS v12 : 5-stage pipelined processor (top level)
+-- mini-MIPS : 5-stage pipelined processor (top level)
 --
 --   IF  : PC, instruction memory, PC+4 adder, branch MUX, jump MUX
 --   ID  : control unit, register file, extender, hazard unit,

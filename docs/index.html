@@ -18,7 +18,7 @@
     <a href="#sim">Simulator</a>
     <a href="#learn">Learn</a>
     <a href="#isa">ISA</a>
-    <a href="#review">Design review</a>
+    <a href="#design">Design</a>
     <a href="#verify">Verification</a>
     <a href="#repo">Run it</a>
   </nav>
@@ -32,7 +32,7 @@
 <!-- ================================================================== HERO -->
 <section class="hero">
   <div class="hero-text">
-    <p class="eyebrow">COEN 6741 · Computer Architecture · Concordia University · reworked 2026</p>
+    <p class="eyebrow">VHDL-2008 · 32-bit MIPS subset · 5-stage pipeline</p>
     <h1>A 5-stage pipelined processor, <em>one clock cycle at a time</em></h1>
     <p class="lede">mini-MIPS is a 32-bit, 11-instruction MIPS subset written in VHDL. This page runs a
       JavaScript model of the pipeline that matches the RTL cycle for cycle. It was checked against the
@@ -40,7 +40,7 @@
       edit the program, and see each hazard, forward and flush as it happens.</p>
     <div class="hero-cta">
       <a class="btn primary" href="#sim">Open the simulator</a>
-      <a class="btn" href="#review">What changed from v11</a>
+      <a class="btn" href="#verify">How it was verified</a>
     </div>
   </div>
   <div class="hero-stats" id="heroStats"></div>
@@ -203,48 +203,40 @@ if not stall:
   <div class="card table-card"><div class="table-scroll"><table class="isa-table" id="isaTable"></table></div></div>
 </section>
 
-<!-- ========================================================= DESIGN REVIEW -->
-<section id="review" class="section">
+<!-- ======================================================= DESIGN DECISIONS -->
+<section id="design" class="section">
   <div class="section-head">
-    <h2>Design review: v11 → v12</h2>
-    <p>The 2023 design (v11) compiled and ran in ModelSim, but its testbench was not self-checking, so
-      nobody saw that the program went wrong. The v11 sources were compiled in GHDL and traced cycle by
-      cycle. Each unit was then checked against the MIPS specification. What turned up is below, along
-      with how v12 handles each item.</p>
+    <h2>Design decisions</h2>
+    <p>The microarchitecture follows the classic five-stage MIPS pipeline. Each choice below is about
+      keeping CPI close to 1 while keeping the hardware small and easy to reason about.</p>
   </div>
-
-  <div class="review-top">
-    <figure class="card fig">
-      <img src="assets/v11-datapath.png" alt="Original v11 pipelined datapath diagram" loading="lazy">
-      <figcaption>The original v11 datapath. The overall structure holds up and v12 keeps it: five stages,
-        a hazard unit, a forwarding unit, and forwarding muxes A–F. v12 changes where branches resolve,
-        how load-use is handled, and the order of MUX A/D. The address buffer and the WB buffer are
-        dropped because they only existed to patch timing.</figcaption>
-    </figure>
-    <div class="card evidence">
-      <h3>What v11 actually did in simulation</h3>
-      <p class="small muted">GHDL 4.1, original <code>test_bench.vhd</code>, sampled every rising edge</p>
-      <div id="v11Trace"></div>
-      <p class="small">The ROM comment says <code>JR R21</code>, but the word <code>0x08150008</code> is
-        really <code>J 0x540020</code>. The PC left the program at 229 ns. A branch then
-        chose the <em>load-address</em> input (always 0) and the program restarted. Neither failure made the
-        testbench report anything.</p>
-    </div>
-  </div>
-
-  <h3 class="sub">Architecture decisions</h3>
   <div class="arch-grid" id="archGrid"></div>
 
-  <h3 class="sub">All findings <span class="muted small" id="findCount"></span></h3>
-  <div class="filters" id="findFilters"></div>
-  <div class="findings" id="findings"></div>
+  <div class="two-col">
+    <div class="card table-card">
+      <div class="table-scroll"><table class="dir-table" id="costTable"></table></div>
+    </div>
+    <div class="card">
+      <h3>Datapath at a glance</h3>
+      <ul class="glance">
+        <li><b>State:</b> PC, four pipeline registers (IF/ID, ID/EX, EX/MEM, MEM/WB), a 32×32 register file,
+          a 256-word instruction ROM and a 1,024-word data RAM. Everything else is combinational.</li>
+        <li><b>Six named multiplexers</b> shape the datapath. C and D forward into the ALU, E and F forward into
+          the branch comparator, A picks register or immediate, and B picks the destination register.</li>
+        <li><b>Two control units</b> share ID. The main decoder produces the control word, and the hazard unit
+          decides when to stall, flush or redirect the PC.</li>
+        <li><b>Synthesizable:</b> <code>ghdl --synth</code> elaborates the top level to a netlist. The debug
+          <code>valid</code>/<code>pc</code> fields that feed the trace are removed by synthesis.</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <!-- ========================================================== VERIFICATION -->
 <section id="verify" class="section">
   <div class="section-head">
     <h2>Verification methodology</h2>
-    <p>"It simulates" is not the same as "it is correct". v12 is checked in four independent ways, and
+    <p>"It simulates" is not the same as "it is correct". The design is checked in four independent ways, and
       the tests themselves were tested by deliberately breaking the design.</p>
   </div>
   <div class="flow card"><svg id="flowSvg" viewBox="0 0 1100 300" role="img" aria-label="Verification flow"></svg></div>
@@ -266,8 +258,8 @@ if not stall:
 
   <div class="card">
     <div class="card-head"><h3>Mutation testing: does the regression catch real bugs?</h3><span class="muted small" id="mutScore"></span></div>
-    <p class="small">Each mutant puts one realistic bug into a copy of the RTL. Several of them are
-      the actual v11 bugs. A mutant counts as <b>killed</b> if any program in the regression fails.
+    <p class="small">Each mutant puts one realistic bug into a copy of the RTL. They cover forwarding,
+      interlocks, flushing, the register file, memory lanes and decoding. A mutant counts as <b>killed</b> if any program in the regression fails.
       Two mutants survived the first run. One of them showed a real gap in the tests: random branches were almost never
       taken, so a missing stall went unnoticed. The generator and a directed test were fixed. The other survivor is
       <em>equivalent</em>, meaning no program can observe it (explained below).</p>
@@ -279,13 +271,14 @@ if not stall:
 <section id="repo" class="section">
   <div class="section-head">
     <h2>Run it yourself</h2>
-    <p>Everything on this page is regenerated from the <code>v12/</code> folder of the repository.</p>
+    <p>Everything on this page, including the numbers, is regenerated from the project folder of the
+      <a href="https://github.com/sundarrajnitish/mini-MIPS">repository</a>.</p>
   </div>
   <div class="two-col">
     <div class="card">
       <h3>Commands</h3>
 <pre class="code"><span class="c"># requirements: GHDL ≥ 3 (VHDL-2008), Python 3, Node ≥ 18</span>
-cd v12
+<span class="c"># run from the project folder (the one containing the Makefile)</span>
 make test        <span class="c"># ALU unit test + directed + 200 random programs</span>
 make regress     <span class="c"># 1,000 random programs</span>
 make jscheck     <span class="c"># website model vs RTL, cycle by cycle</span>
@@ -298,7 +291,7 @@ python3 sw/mips_iss.py sw/programs/00_tour.s</pre>
     </div>
     <div class="card">
       <h3>Layout</h3>
-<pre class="code tree">v12/
+<pre class="code tree">project/
 ├─ rtl/
 │  ├─ mips_pkg.vhd          types, ISA constants, records
 │  ├─ mips_cpu.vhd          top level: stages + muxes A–F
@@ -314,8 +307,8 @@ python3 sw/mips_iss.py sw/programs/00_tour.s</pre>
     </div>
   </div>
   <footer class="foot">
-    <p>Original design by Nitish Sundarraj Balaji with Nour Dekhil, Amira Jemma and Shu Gho (COEN 6741, Winter 2023).
-      v12 rework, verification and this page, 2026.</p>
+    <p>mini-MIPS Pipeline Lab · VHDL-2008 RTL, Python verification flow, and a cycle-accurate JavaScript
+      model of the same pipeline. Source on <a href="https://github.com/sundarrajnitish/mini-MIPS">GitHub</a>.</p>
   </footer>
 </section>
 </main>

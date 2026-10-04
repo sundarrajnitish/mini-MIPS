@@ -74,7 +74,7 @@ def run_one(name, src, outdir):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--random', type=int, default=200)
-    ap.add_argument('--seed', type=int, default=2023)
+    ap.add_argument('--seed', type=int, default=1000)
     ap.add_argument('--length', type=int, default=40)
     ap.add_argument('--json', help='write summary JSON here')
     a = ap.parse_args()

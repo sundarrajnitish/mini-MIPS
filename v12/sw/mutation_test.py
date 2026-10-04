@@ -2,8 +2,7 @@
 """
 Mutation testing: "does the regression actually catch bugs?"
 
-Each mutant injects one realistic design bug into a copy of the RTL (several
-of them are exactly the bugs found in v11). The mutant is killed if at least
+Each mutant injects one realistic design bug into a copy of the RTL. The mutant is killed if at least
 one program in the regression (directed + constrained-random) fails the
 golden-model comparison. A surviving mutant would reveal a hole in the tests.
 
@@ -31,18 +30,18 @@ MUTANTS = [
     ('fwd_priority', 'MEM/WB given priority over EX/MEM (stale value wins)', 'rtl/3_execute/forwarding_unit.vhd',
      "if m_we = '1' and m_d /= REG_ZERO and m_d = src then\n      return FWD_EX_MEM;\n    elsif w_we = '1' and w_d /= REG_ZERO and w_d = src then\n      return FWD_MEM_WB;",
      "if w_we = '1' and w_d /= REG_ZERO and w_d = src then\n      return FWD_MEM_WB;\n    elsif m_we = '1' and m_d /= REG_ZERO and m_d = src then\n      return FWD_EX_MEM;"),
-    ('fwd_r0', 'forwarding does not exclude $0 (v11 bug)', 'rtl/3_execute/forwarding_unit.vhd',
+    ('fwd_r0', 'forwarding does not exclude $0', 'rtl/3_execute/forwarding_unit.vhd',
      "if m_we = '1' and m_d /= REG_ZERO and m_d = src then", "if m_we = '1' and m_d = src then"),
-    ('fwd_no_regwrite', 'forwarding ignores RegWrite (v11 bug)', 'rtl/3_execute/forwarding_unit.vhd',
+    ('fwd_no_regwrite', 'forwarding ignores RegWrite', 'rtl/3_execute/forwarding_unit.vhd',
      "elsif w_we = '1' and w_d /= REG_ZERO and w_d = src then", "elsif w_d /= REG_ZERO and w_d = src then"),
     ('id_fwd_load', 'ID forwarding also forwards a load address', 'rtl/3_execute/forwarding_unit.vhd',
      "if m_we = '1' and m_rd = '0' and", "if m_we = '1' and"),
     ('no_id_fwd', 'MUX E / MUX F never forward', 'rtl/mips_cpu.vhd',
      "id_rs_val <= ex_mem.alu_result when fwd_e = '1' else rf_rd1;", "id_rs_val <= rf_rd1;"),
-    ('imm_overridden', 'forwarding MUX placed after ALUSrc MUX (v11 ordering)', 'rtl/mips_cpu.vhd',
+    ('imm_overridden', 'forwarding MUX placed after the ALUSrc MUX', 'rtl/mips_cpu.vhd',
      "alu_b <= id_ex.imm when id_ex.ctrl.alu_src = '1' else rt_fwd;",
      "alu_b <= rt_fwd when (fwd_b /= FWD_NONE or id_ex.ctrl.alu_src = '0') else id_ex.imm;"),
-    ('store_not_fwd', 'SB store data taken before forwarding (v11 bug)', 'rtl/mips_cpu.vhd',
+    ('store_not_fwd', 'SB store data taken before forwarding', 'rtl/mips_cpu.vhd',
      "store_data => rt_fwd,", "store_data => id_ex.rt_val,"),
     ('no_load_use', 'load-use interlock removed', 'rtl/2_decode/hazard_unit.vhd',
      "load_use   := ex_mem_read = '1' and", "load_use   := false and"),
@@ -54,17 +53,17 @@ MUTANTS = [
      "write => pc_write, flush => if_flush,", "write => pc_write, flush => '0',"),
     ('no_rf_bypass', 'register file without write-through bypass', 'rtl/2_decode/register_file.vhd',
      "elsif we_i = '1' and wa_i = ra then", "elsif false then"),
-    ('r0_writable', '$0 not hard-wired to zero (v11 bug)', 'rtl/2_decode/register_file.vhd',
+    ('r0_writable', '$0 not hard-wired to zero', 'rtl/2_decode/register_file.vhd',
      "if ra = REG_ZERO then\n      return ZERO_WORD;\n    elsif", "if false then\n      return ZERO_WORD;\n    elsif"),
-    ('branch_no_shift', 'branch offset not shifted left by 2 (v11 bug)', 'rtl/2_decode/branch_unit.vhd',
+    ('branch_no_shift', 'branch offset not shifted left by 2', 'rtl/2_decode/branch_unit.vhd',
      "shift_left(resize(signed(imm16), 32), 2)", "resize(signed(imm16), 32)"),
-    ('sb_full_word', 'SB always writes byte lane 0 (v11 bug)', 'rtl/4_memory/data_memory.vhd',
+    ('sb_full_word', 'SB always writes byte lane 0', 'rtl/4_memory/data_memory.vhd',
      "lane := to_integer(unsigned(addr(1 downto 0)));", "lane := 0;"),
     ('andi_sext', 'ANDI sign-extends its immediate', 'rtl/2_decode/control_unit.vhd',
      "c.ext_zero  := '1';", "c.ext_zero  := '0';"),
-    ('wb_wrong_data', 'MEM/WB latches store data instead of loaded data (v11 bug)', 'rtl/mips_cpu.vhd',
+    ('wb_wrong_data', 'MEM/WB latches store data instead of loaded data', 'rtl/mips_cpu.vhd',
      "read_data => dmem_rdata,\n", "read_data => ex_mem.store_data,\n"),
-    ('dest_always_rd', 'destination is always rd (v11 EX/MEM bug)', 'rtl/mips_cpu.vhd',
+    ('dest_always_rd', 'destination is always rd', 'rtl/mips_cpu.vhd',
      "ex_dest <= id_ex.rd when id_ex.ctrl.reg_dst = '1' else id_ex.rt;", "ex_dest <= id_ex.rd;"),
 ]
 
